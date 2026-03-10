@@ -13,7 +13,23 @@ class TripResource extends JsonResource
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
-    {
-        return parent::toArray($request);
-    }
+{
+    return [
+        'id' => $this->id,
+        'title' => $this->title,
+        'destination' => $this->destination,
+        'description' => $this->description,
+        'price' => (float) $this->price,
+        'start_date' => $this->start_date,
+        'end_date' => $this->end_date,
+      
+        'images' => $this->images->map(function ($image) {
+            return [
+                'id' => $image->id,
+                'url' => $image->image_path,
+                'is_primary' => (bool) $image->is_primary,
+            ];
+        }),
+    ];
+}
 }
