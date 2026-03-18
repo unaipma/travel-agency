@@ -5,6 +5,9 @@ import { Home } from './features/public/home/home';
 import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
 import { Dashboard } from './features/admin/dashboard/dashboard';
+import { TripList } from './features/admin/trips/trip-list/trip-list';
+import { TripForm } from './features/admin/trips/trip-form/trip-form';
+import { TripDetail } from './features/public/trip-detail/trip-detail';
 
 export const routes: Routes = [
   { 
@@ -31,6 +34,26 @@ export const routes: Routes = [
     path: 'admin', 
     component: Dashboard,
     title: 'Panel de Administración'
+  },
+  { 
+    path: 'admin/trips', 
+    component: TripList,
+    title: 'Gestión de Viajes - TravelAgency'
+  },
+  { 
+    path: 'admin/trips/new', 
+    component: TripForm,
+    title: 'Añadir Viaje - TravelAgency'
+  },
+  { 
+    path: 'admin/trips/edit/:id', 
+    component: TripForm,
+    title: 'Editar Viaje - TravelAgency'
+  },
+  { 
+    path: 'trip/:id', 
+    component: TripDetail,
+    title: 'Detalles del Viaje'
   },
   
   { 

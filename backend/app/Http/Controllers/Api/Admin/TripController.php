@@ -20,38 +20,39 @@ class TripController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'destination' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048' 
-        ]);
+{
+    // 1. Validar los datos (incluyendo la imagen opcional)
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'destination' => 'required|string|max:255',
+        'description' => 'required|string',
+        'price' => 'required|numeric',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date',
+        'images' => 'nullable|array',
+        'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+        'cover_index' => 'nullable|integer'
+    ]);
 
-        $trip = Trip::create($request->only([
-            'title', 'destination', 'description', 'price', 'start_date', 'end_date'
-        ]));
+    // 2. Crear el viaje con los datos de texto
+    $trip = Trip::create($request->except(['images', 'cover_index']));
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $index => $image) {
-                $path = $image->store('trips', 'public');
-                
-                $trip->images()->create([
-                    'image_path' => url('storage/' . $path),
-                    'is_primary' => $index === 0 
-                ]);
-            }
+    // 3. LA MAGIA DE LA IMAGEN: Comprobar si viene un archivo y guardarlo
+    if ($request->hasFile('images')) {
+        $coverIndex = $request->input('cover_index', 0); // Por defecto la 0 si no llega
+
+        foreach ($request->file('images') as $index => $file) {
+            $path = $file->store('trips', 'public');
+            
+            $trip->images()->create([
+                'image_path' => url('storage/' . $path),
+                'is_cover' => ($index == $coverIndex) // true si el índice coincide, false si no
+            ]);
         }
-
-        return response()->json([
-            'message' => 'Viaje creado correctamente en el catálogo.',
-            'trip' => new TripResource($trip->load('images'))
-        ], 201);
     }
+
+    return response()->json(['message' => 'Viaje creado correctamente', 'data' => $trip], 201);
+}
 
   
     public function show($id)
@@ -63,27 +64,30 @@ class TripController extends Controller
 
   
     public function update(Request $request, $id)
-    {
-        $trip = Trip::findOrFail($id);
+{
+    $trip = Trip::findOrFail($id);
 
-        $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'destination' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'sometimes|required|numeric|min:0',
-            'start_date' => 'sometimes|required|date',
-            'end_date' => 'sometimes|required|date|after_or_equal:start_date',
-        ]);
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        // ... el resto de tus validaciones ...
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+    ]);
 
-        $trip->update($request->only([
-            'title', 'destination', 'description', 'price', 'start_date', 'end_date'
-        ]));
+    $trip->update($validated);
 
-        return response()->json([
-            'message' => 'Viaje actualizado correctamente.',
-            'trip' => new TripResource($trip->load('images'))
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('trips', 'public');
+
+        // Opción A: Si cada viaje solo tiene 1 foto, puedes borrar las anteriores de la base de datos
+        $trip->images()->delete(); 
+
+        $trip->images()->create([
+            'image_path' => url('storage/' . $path)
         ]);
     }
+
+    return response()->json(['message' => 'Viaje actualizado correctamente', 'data' => $trip]);
+}
 
     public function destroy($id)
     {

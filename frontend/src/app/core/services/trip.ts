@@ -11,4 +11,8 @@ export class TripService {
   getTrips() {
     return this.http.get<any>(`${this.apiUrl}/trips`);
   }
+
+  getTrip(id: string) {
+    return this.http.get<any>(`${this.apiUrl}/trips/${id}`);
+  }
 }
