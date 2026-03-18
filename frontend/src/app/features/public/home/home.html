@@ -1,1 +1,62 @@
-<p>home works!</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl">
+      Descubre tu próximo destino
+    </h1>
+    <p class="mt-4 text-xl text-gray-500">
+      Explora nuestro catálogo de viajes exclusivos y reserva la aventura de tu vida.
+    </p>
+  </div>
+
+  @if (loading()) {
+    <div class="flex justify-center items-center h-64">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      @for (trip of trips(); track trip.id) {
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col">
+          
+          <div class="h-48 w-full bg-gray-200 relative">
+            @if (trip.images && trip.images.length > 0 && trip.images[0].image_path) {
+              <img [src]="trip.images[0].image_path" [alt]="trip.title" class="w-full h-full object-cover">
+            } @else {
+              <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Viaje+Sin+Foto" [alt]="trip.title" class="w-full h-full object-cover">
+            }
+            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-gray-900 shadow">
+              {{ trip.price }} €
+            </div>
+          </div>
+
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="uppercase tracking-wide text-xs text-blue-700 font-semibold mb-1">
+              {{ trip.destination }}
+            </div>
+            <h2 class="text-xl font-bold text-gray-900 mb-2">
+              {{ trip.title }}
+            </h2>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+              {{ trip.description }}
+            </p>
+
+            <div class="mt-auto flex items-center justify-between pt-4 border-t border-gray-100">
+              <div class="text-sm text-gray-500 font-medium">
+                Salida: {{ trip.start_date }}
+              </div>
+              <a [routerLink]="['/trip', trip.id]" class="text-blue-700 hover:text-blue-800 font-medium text-sm transition-colors">
+                Ver detalles &rarr;
+              </a>
+            </div>
+          </div>
+
+        </div>
+      } @empty {
+        <div class="col-span-full text-center py-12 text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+          No hay viajes disponibles en este momento.
+        </div>
+      }
+
+    </div>
+  }
+</div>

@@ -18,12 +18,34 @@
       </div>
 
       <div class="flex items-center space-x-4">
-        <a routerLink="/login" class="text-gray-600 hover:text-gray-900 font-medium text-sm px-4 py-2 transition-colors">
-          Iniciar sesión
-        </a>
-        <a routerLink="/register" class="bg-blue-700 hover:bg-blue-800 text-white font-medium text-sm px-5 py-2.5 rounded-md transition-colors shadow-sm">
-          Registrarse
-        </a>
+        
+        @if (!authService.currentUser()) {
+          <a routerLink="/login" class="text-gray-600 hover:text-gray-900 font-medium text-sm px-4 py-2 transition-colors">
+            Iniciar sesión
+          </a>
+          <a routerLink="/register" class="bg-blue-700 hover:bg-blue-800 text-white font-medium text-sm px-5 py-2.5 rounded-md transition-colors shadow-sm">
+            Registrarse
+          </a>
+        } @else {
+          <span class="text-sm font-medium text-gray-700 hidden sm:block">
+            Hola, {{ authService.currentUser().name }}
+          </span>
+          
+          @if (authService.currentUser().is_admin) {
+            <a routerLink="/admin" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+              Panel Admin
+            </a>
+          } @else {
+            <a routerLink="/perfil" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+              Mi Perfil
+            </a>
+          }
+
+          <button (click)="onLogout()" class="text-gray-500 hover:text-red-600 font-medium text-sm px-4 py-2 transition-colors">
+            Cerrar sesión
+          </button>
+        }
+
       </div>
 
     </div>
