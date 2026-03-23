@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\TripController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\PaymentController;
 
 use App\Http\Controllers\Api\Admin\TripController as AdminTripController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
@@ -35,6 +36,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Reservas
     Route::get('/bookings', [BookingController::class, 'index']);
     Route::post('/bookings', [BookingController::class, 'store']);
+
+    //pagos
+    Route::post('/checkout/{bookingId}', [PaymentController::class, 'createCheckoutSession']);
+    Route::post('/payment/verify', [PaymentController::class, 'verifySession']);
 });
 
 
@@ -53,4 +58,5 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
+    Route::patch('/bookings/{id}/status', [AdminBookingController::class, 'updateStatus']);
 });

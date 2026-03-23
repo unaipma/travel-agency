@@ -48,4 +48,18 @@ export class AdminService {
     
     return this.http.post<any>(`${this.apiUrl}/trips/${id}`, data, { headers });
   }
+
+  getAllBookings() {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/bookings`, { headers });
+  }
+
+  updateBookingStatus(id: number, status: string) {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.patch<any>(`${this.apiUrl}/bookings/${id}/status`, { status }, { headers });
+  }
+
+  
 }

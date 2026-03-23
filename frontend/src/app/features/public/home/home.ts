@@ -1,6 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, HostListener } from '@angular/core';
 import { TripService } from '../../../core/services/trip';
 import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,20 @@ export class Home implements OnInit {
 
   trips = signal<any[]>([]);
   loading = signal<boolean>(true);
+
+  scrollOffset = signal<number>(0);
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.scrollOffset.set(window.scrollY);
+  }
+
+  scrollToCatalog() {
+    const catalogElement = document.getElementById('catalogo');
+    if (catalogElement) {
+      catalogElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
 
   ngOnInit() {
     this.tripService.getTrips().subscribe({

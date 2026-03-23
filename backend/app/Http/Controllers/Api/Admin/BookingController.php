@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingStatusUpdated;
+
 
 class BookingController extends Controller
 {
@@ -49,4 +52,18 @@ class BookingController extends Controller
             'booking' => $booking->load(['user', 'trip'])
         ]);
     }
+    public function updateStatus(Request $request, $id)
+{
+    $request->validate([
+        'status' => 'required|in:pendiente,confirmada,rechazada'
+    ]);
+
+    $booking = Booking::findOrFail($id);
+    $booking->status = $request->status;
+    $booking->save();
+
+    Mail::to($booking->user->email)->send(new BookingStatusUpdated($booking));
+
+    return response()->json(['message' => 'Estado actualizado', 'data' => $booking]);
+}
 }

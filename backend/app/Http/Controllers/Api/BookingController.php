@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Trip;
 use App\Http\Resources\BookingResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingCreated;
 
 class BookingController extends Controller
 {
@@ -42,6 +44,8 @@ class BookingController extends Controller
             'trip_id' => $request->trip_id,
             'status' => 'pendiente',
         ]);
+
+        Mail::to($user->email)->send(new BookingCreated($booking));
 
         return response()->json([
             'message' => 'Reserva simulada realizada con éxito',

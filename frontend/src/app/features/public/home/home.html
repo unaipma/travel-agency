@@ -1,13 +1,38 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-  <div class="text-center mb-12">
-    <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl">
-      Descubre tu próximo destino
-    </h1>
-    <p class="mt-4 text-xl text-gray-500">
-      Explora nuestro catálogo de viajes exclusivos y reserva la aventura de tu vida.
-    </p>
-  </div>
+<div class="relative h-[250vh] bg-gray-50">
+  
+  <div class="sticky top-0 h-screen w-full bg-gradient-to-br from-blue-900 via-blue-800 to-blue-950 overflow-hidden flex items-center justify-center">
+    
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent"></div>
 
+    <div class="absolute z-10 transition-transform duration-75 ease-out pointer-events-none"
+         [style.transform]="'translate(' + (scrollOffset() * 1.5) + 'px, ' + -(scrollOffset() * 0.8) + 'px) rotate(' + (45 + scrollOffset() * 0.03) + 'deg)'"
+         style="bottom: 5%; left: -10%;">
+      
+      <svg class="w-40 h-40 text-white opacity-90 drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      <div class="absolute top-1/2 right-full w-96 h-1.5 bg-gradient-to-r from-transparent to-white/40 transform -translate-y-1/2 blur-[2px] rounded-full"></div>
+    </div>
+
+    <div class="relative z-30 text-center mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
+      <span class="inline-block py-1 px-4 rounded-full bg-blue-800/60 text-blue-200 text-sm font-bold tracking-widest mb-8 border border-blue-700/50 backdrop-blur-md shadow-lg">
+        TU PRÓXIMA AVENTURA EMPIEZA AQUÍ
+      </span>
+      
+      <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight mb-8 drop-shadow-xl leading-tight">
+        Descubre el mundo <br class="hidden md:block" />con <span class="text-blue-400">triptoyou</span>
+      </h1>
+      
+      <p class="mt-4 text-xl md:text-3xl text-blue-100 max-w-4xl mx-auto font-light leading-relaxed drop-shadow-md">
+        Experiencias únicas, destinos increíbles y la tranquilidad de tenerlo todo organizado.
+      </p>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-gray-50 to-transparent z-40 pointer-events-none"></div>
+  </div>
+</div>
+
+<div id="catalogo" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-30">
   @if (loading()) {
     <div class="flex justify-center items-center h-64">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div>

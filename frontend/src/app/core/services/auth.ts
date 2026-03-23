@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,10 @@ export class AuthService {
     );
   }
 
+  register(data: any) {
+    return this.http.post<any>(`${this.apiUrl}/register`, data);
+  }
+
   logout() {
     // Borramos datos del navegador y reseteamos el Signal
     localStorage.removeItem('auth_token');
@@ -42,5 +47,23 @@ export class AuthService {
 
   getToken() {
     return localStorage.getItem('auth_token');
+  }
+  updateProfile(data: { name: string; email: string }) {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/user/profile`, data, { headers });
+  }
+
+  deleteAccount() {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<any>(`${this.apiUrl}/user`, { headers });
+  }
+
+  // Dejamos el método preparado para cuando implementemos el 2FA en Laravel
+  enable2FA() {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<any>(`${this.apiUrl}/user/two-factor-authentication`, {}, { headers });
   }
 }

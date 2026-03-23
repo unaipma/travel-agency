@@ -1,0 +1,71 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Gestión de Reservas</h1>
+    <p class="mt-1 text-sm text-gray-500">Aprueba o rechaza las solicitudes de vacaciones de los clientes.</p>
+  </div>
+
+  @if (loading()) {
+    <div class="flex justify-center items-center h-64">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div>
+    </div>
+  } @else {
+    <div class="bg-white shadow-sm rounded-lg border border-gray-100 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Viaje Solicitado</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Solicitud</th>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Estado Actual</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            @for (booking of bookings(); track booking.id) {
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">{{ booking.user?.name }}</div>
+                  <div class="text-sm text-gray-500">{{ booking.user?.email }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">{{ booking.trip?.title }}</div>
+                  <div class="text-xs text-gray-500">{{ booking.trip?.start_date | date:'dd/MM/yyyy' }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {{ booking.created_at | date:'dd/MM/yyyy' }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-center">
+                  <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full 
+                    {{ booking.status === 'confirmada' ? 'bg-green-100 text-green-800' : 
+                       booking.status === 'pendiente' ? 'bg-yellow-100 text-yellow-800' : 
+                       'bg-red-100 text-red-800' }}">
+                    {{ booking.status | titlecase }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                  @if (booking.status !== 'confirmada') {
+                    <button (click)="changeStatus(booking.id, 'confirmada')" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700 focus:outline-none transition-colors">
+                      Aprobar
+                    </button>
+                  }
+                  @if (booking.status !== 'rechazada') {
+                    <button (click)="changeStatus(booking.id, 'rechazada')" class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors">
+                      Rechazar
+                    </button>
+                  }
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="px-6 py-8 text-center text-sm text-gray-500">
+                  No hay reservas registradas en el sistema.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

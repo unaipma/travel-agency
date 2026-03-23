@@ -3,11 +3,11 @@
     <div class="flex justify-between h-16">
       
       <div class="flex items-center">
-        <a routerLink="/" class="flex-shrink-0 flex items-center gap-2">
-          <div class="w-8 h-8 bg-blue-700 rounded flex items-center justify-center text-white font-bold text-lg shadow-sm">
-            T
+        <a routerLink="/" class="flex-shrink-0 flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-gray-100 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
+            <img src="/assets/logo.png" alt="triptoyou Logo" class="w-full h-full object-cover">
           </div>
-          <span class="font-bold text-xl text-gray-900 tracking-tight">TravelAgency</span>
+          <span class="font-extrabold text-2xl text-blue-800 tracking-tight transition-colors group-hover:text-blue-600">triptoyou</span>
         </a>
         
         <div class="hidden md:ml-10 md:flex md:space-x-1">
@@ -38,11 +38,17 @@
             <a routerLink="/admin/trips" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
               Gestión Viajes
             </a>
+            <a routerLink="/admin/bookings" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+              Reservas
+            </a>
           } @else {
             <a routerLink="/perfil" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
               Mi Perfil
             </a>
           }
+          <a routerLink="/configuracion" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+            Configuración
+          </a>
 
           <button (click)="onLogout()" class="text-gray-500 hover:text-red-600 font-medium text-sm px-4 py-2 transition-colors">
             Cerrar sesión

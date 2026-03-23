@@ -8,6 +8,16 @@ import { Dashboard } from './features/admin/dashboard/dashboard';
 import { TripList } from './features/admin/trips/trip-list/trip-list';
 import { TripForm } from './features/admin/trips/trip-form/trip-form';
 import { TripDetail } from './features/public/trip-detail/trip-detail';
+import { Profile } from './features/public/profile/profile';
+import { BookingList } from './features/admin/bookings/booking-list/booking-list';
+import { PaymentSuccess } from './features/public/payment-success/payment-success';
+import { Settings } from './features/public/settings/settings';
+import { About } from './features/public/pages/about/about';
+import { Contact } from './features/public/pages/contact/contact';
+import { Privacy } from './features/public/pages/privacy/privacy';
+import { Terms } from './features/public/pages/terms/terms';
+
+
 
 export const routes: Routes = [
   { 
@@ -55,6 +65,62 @@ export const routes: Routes = [
     component: TripDetail,
     title: 'Detalles del Viaje'
   },
+  { 
+  path: 'perfil', 
+  component: Profile,
+  title: 'Mi Perfil'
+},
+
+
+{ 
+  path: 'admin/bookings', 
+  component: BookingList,
+  title: 'Gestión de Reservas'
+}, 
+
+{ 
+  path: 'pago-completado', 
+  component: PaymentSuccess,
+  title: 'Pago Completado | triptoyou'
+},
+ 
+
+{ 
+  path: 'configuracion', 
+  component: Settings,
+  title: 'Configuración | triptoyou'
+},
+
+{ 
+  path: 'sobre-nosotros', 
+  component: About,
+  title: 'Sobre Nosotros | triptoyou'
+},
+
+{ 
+  path: 'contacto', 
+  component: Contact,
+  title: 'Contacto | triptoyou'
+},
+
+{ 
+  path: 'privacidad',
+  component: Privacy,
+  title: 'Política de Privacidad | triptoyou'
+},
+
+{ 
+  path: 'terminos', 
+  component: Terms,
+  title: 'Términos y Condiciones | triptoyou'
+},
+  
+{ 
+  path: '**', 
+  redirectTo: '' 
+},
+  
+    
   
   { 
     path: '**', 
