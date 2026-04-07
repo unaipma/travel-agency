@@ -13,30 +13,31 @@ class TripController extends Controller
      */
     public function index(Request $request)
     {
+        $query = Trip::query()->with('images');
 
-       
-        $query = Trip::with('images');
-
-     
-        if ($request->filled('destination')) {
-          
-            $query->where('destination', 'ilike', '%' . $request->destination . '%');
+        // Filtro por Destino
+        if ($request->filled('destination') && $request->destination !== 'null') {
+            $query->where('destination', 'LIKE', '%' . $request->destination . '%');
         }
 
-        if ($request->filled('max_price')) {
-            $query->where('price', '<=', $request->max_price);
+        // Filtro por Fecha
+        if ($request->filled('date') && $request->date !== 'null') {
+            $query->where('start_date', '>=', $request->date);
         }
 
-        
-        if ($request->filled('start_date')) {
-            $query->where('start_date', '>=', $request->start_date);
+        // Filtro por Precio
+        if ($request->filled('price') && $request->price !== 'null') {
+            $query->where('price', '<=', $request->price);
         }
 
-        
-        $trips = $query->get();
-        
-   
-        return TripResource::collection($trips);
+        // Filtro por Personas
+        if ($request->filled('people') && $request->people !== 'null') {
+            $query->where('max_people', '>=', $request->people);
+        }
+
+        $trips = $query->latest()->get();
+
+        return response()->json(['data' => $trips]);
     }
 
     public function show($id)
