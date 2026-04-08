@@ -17,6 +17,8 @@ class TripResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'images' => $this->whenLoaded('images'),
+            'location' => $this->location,
+            'max_people' => $this->max_people,
         ];
     }
 }

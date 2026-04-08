@@ -4,10 +4,11 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { TripService } from '../../../core/services/trip';
 import { AuthService } from '../../../core/services/auth';
 import { BookingService } from '../../../core/services/booking';
+import { SafePipe } from '../../../shared/pipes/safe-pipe';
 
 @Component({
   selector: 'app-trip-detail',
-  imports: [RouterLink, CurrencyPipe, DatePipe],
+  imports: [RouterLink, CurrencyPipe, DatePipe, SafePipe],
   templateUrl: './trip-detail.html'
 })
 export class TripDetail implements OnInit {
