@@ -6,19 +6,18 @@ import { AuthService } from '../../../core/services/auth';
 @Component({
   selector: 'app-settings',
   imports: [ReactiveFormsModule],
-  templateUrl: './settings.html'
+  templateUrl: './settings.html',
 })
 export class Settings implements OnInit {
   private fb = inject(FormBuilder);
   authService = inject(AuthService);
   private router = inject(Router);
 
-  // Estados de carga y mensajes
   loadingProfile = signal<boolean>(false);
-  profileMessage = signal<{text: string, type: 'success'|'error'} | null>(null);
-  
+  profileMessage = signal<{ text: string; type: 'success' | 'error' } | null>(null);
+
   loading2FA = signal<boolean>(false);
-  
+
   loadingDelete = signal<boolean>(false);
   confirmDelete = signal<boolean>(false);
 
@@ -32,7 +31,7 @@ export class Settings implements OnInit {
     if (user) {
       this.profileForm.patchValue({
         name: user.name,
-        email: user.email
+        email: user.email,
       });
     }
   }
@@ -46,21 +45,23 @@ export class Settings implements OnInit {
       next: (res) => {
         this.loadingProfile.set(false);
         this.profileMessage.set({ text: 'Perfil actualizado correctamente.', type: 'success' });
-        // Actualizamos el signal global del usuario
-        this.authService.currentUser.set(res.user); 
+
+        this.authService.currentUser.set(res.user);
       },
       error: () => {
         this.loadingProfile.set(false);
         this.profileMessage.set({ text: 'Error al actualizar el perfil.', type: 'error' });
-      }
+      },
     });
   }
 
   onEnable2FA() {
     this.loading2FA.set(true);
-    // Aquí llamaremos al servicio cuando Laravel esté listo. Por ahora simulamos.
+
     setTimeout(() => {
-      alert('La conexión con el backend para el código QR del 2FA se implementará en el siguiente paso.');
+      alert(
+        'La conexión con el backend para el código QR del 2FA se implementará en el siguiente paso.',
+      );
       this.loading2FA.set(false);
     }, 1000);
   }
@@ -82,7 +83,7 @@ export class Settings implements OnInit {
         console.error(err);
         this.loadingDelete.set(false);
         alert('Hubo un error al intentar eliminar la cuenta.');
-      }
+      },
     });
   }
 }

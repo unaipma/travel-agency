@@ -13,6 +13,6 @@
         <li>Regreso: {{ \Carbon\Carbon::parse($booking->trip->end_date)->format('d/m/Y') }}</li>
         <li>Precio: {{ $booking->trip->price }} €</li>
     </ul>
-    <p>¡Gracias por confiar en TravelAgency!</p>
+    <p>¡Gracias por confiar en triptoyou!</p>
 </body>
 </html>

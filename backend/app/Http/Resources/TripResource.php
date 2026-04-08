@@ -19,6 +19,16 @@ class TripResource extends JsonResource
             'images' => $this->whenLoaded('images'),
             'location' => $this->location,
             'max_people' => $this->max_people,
+            'reviews' => $this->reviews->map(function($review) {
+        return [
+            'id' => $review->id,
+            'user_id' => $review->user_id,
+            'rating' => $review->rating,
+            'comment' => $review->comment,
+            'user_name' => $review->user->name ?? 'Usuario Anónimo', // Por si acaso
+            'created_at' => $review->created_at->format('d/m/Y')
+        ];
+    }),
         ];
     }
 }

@@ -40,6 +40,9 @@ Route::middleware('auth:sanctum')->group(function () {
     //pagos
     Route::post('/checkout/{bookingId}', [PaymentController::class, 'createCheckoutSession']);
     Route::post('/payment/verify', [PaymentController::class, 'verifySession']);
+
+    // reseñas
+    Route::post('/trips/{id}/reviews', [TripController::class, 'addReview']);
 });
 
 

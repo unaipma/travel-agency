@@ -5,7 +5,7 @@ import { AdminService } from '../../../../core/services/admin';
 @Component({
   selector: 'app-booking-list',
   imports: [DatePipe, TitleCasePipe],
-  templateUrl: './booking-list.html'
+  templateUrl: './booking-list.html',
 })
 export class BookingList implements OnInit {
   private adminService = inject(AdminService);
@@ -26,19 +26,18 @@ export class BookingList implements OnInit {
       error: (err) => {
         console.error('Error al cargar las reservas', err);
         this.loading.set(false);
-      }
+      },
     });
   }
 
   changeStatus(id: number, newStatus: string) {
     this.adminService.updateBookingStatus(id, newStatus).subscribe({
       next: () => {
-        // Actualizamos el Signal localmente para que la UI cambie al instante
-        this.bookings.update(currentBookings => 
-          currentBookings.map(b => b.id === id ? { ...b, status: newStatus } : b)
+        this.bookings.update((currentBookings) =>
+          currentBookings.map((b) => (b.id === id ? { ...b, status: newStatus } : b)),
         );
       },
-      error: (err) => console.error('Error al actualizar el estado', err)
+      error: (err) => console.error('Error al actualizar el estado', err),
     });
   }
 }

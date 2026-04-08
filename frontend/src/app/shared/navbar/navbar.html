@@ -1,62 +1,87 @@
 <nav class="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
-      
       <div class="flex items-center">
         <a routerLink="/" class="flex-shrink-0 flex items-center gap-3 group">
-          <div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-gray-100 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
-            <img src="/assets/logo.png" alt="triptoyou Logo" class="w-full h-full object-cover">
-          </div>
-          <span class="font-extrabold text-2xl text-blue-800 tracking-tight transition-colors group-hover:text-blue-600">triptoyou</span>
+          
+          <span
+            class="font-extrabold text-2xl text-blue-800 tracking-tight transition-colors group-hover:text-blue-600"
+            >triptoyou</span
+          >
         </a>
-        
+
         <div class="hidden md:ml-10 md:flex md:space-x-1">
-          <a routerLink="/trips" routerLinkActive="bg-gray-50 text-blue-700" class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+          <a
+            routerLink="/trips"
+            routerLinkActive="bg-gray-50 text-blue-700"
+            class="text-gray-600 hover:bg-gray-50 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+          >
             Catálogo
           </a>
         </div>
       </div>
 
       <div class="flex items-center space-x-4">
-        
         @if (!authService.currentUser()) {
-          <a routerLink="/login" class="text-gray-600 hover:text-gray-900 font-medium text-sm px-4 py-2 transition-colors">
+          <a
+            routerLink="/login"
+            class="text-gray-600 hover:text-gray-900 font-medium text-sm px-4 py-2 transition-colors"
+          >
             Iniciar sesión
           </a>
-          <a routerLink="/register" class="bg-blue-700 hover:bg-blue-800 text-white font-medium text-sm px-5 py-2.5 rounded-md transition-colors shadow-sm">
+          <a
+            routerLink="/register"
+            class="bg-blue-700 hover:bg-blue-800 text-white font-medium text-sm px-5 py-2.5 rounded-md transition-colors shadow-sm"
+          >
             Registrarse
           </a>
         } @else {
           <span class="text-sm font-medium text-gray-700 hidden sm:block">
             Hola, {{ authService.currentUser().name }}
           </span>
-          
+
           @if (authService.currentUser().is_admin) {
-            <a routerLink="/admin" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+            <a
+              routerLink="/admin"
+              class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors"
+            >
               Panel Admin
             </a>
-            <a routerLink="/admin/trips" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+            <a
+              routerLink="/admin/trips"
+              class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors"
+            >
               Gestión Viajes
             </a>
-            <a routerLink="/admin/bookings" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+            <a
+              routerLink="/admin/bookings"
+              class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors"
+            >
               Reservas
             </a>
           } @else {
-            <a routerLink="/perfil" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+            <a
+              routerLink="/perfil"
+              class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors"
+            >
               Mi Perfil
             </a>
           }
-          <a routerLink="/configuracion" class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors">
+          <a
+            routerLink="/configuracion"
+            class="text-blue-700 hover:text-blue-800 font-medium text-sm px-4 py-2 transition-colors"
+          >
             Configuración
           </a>
 
-          <button (click)="onLogout()" class="text-gray-500 hover:text-red-600 font-medium text-sm px-4 py-2 transition-colors">
+          <button
+            (click)="onLogout()"
+            class="text-gray-500 hover:text-red-600 font-medium text-sm px-4 py-2 transition-colors"
+          >
             Cerrar sesión
           </button>
         }
-
       </div>
-
     </div>
   </div>
 </nav>

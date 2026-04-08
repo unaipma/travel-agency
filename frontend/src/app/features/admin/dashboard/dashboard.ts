@@ -5,7 +5,7 @@ import { AdminService } from '../../../core/services/admin';
 @Component({
   selector: 'app-dashboard',
   imports: [DatePipe, TitleCasePipe],
-  templateUrl: './dashboard.html'
+  templateUrl: './dashboard.html',
 })
 export class Dashboard implements OnInit {
   private adminService = inject(AdminService);
@@ -22,7 +22,7 @@ export class Dashboard implements OnInit {
       error: (err) => {
         console.error('Error al cargar las estadísticas del panel', err);
         this.loading.set(false);
-      }
+      },
     });
   }
 }

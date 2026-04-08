@@ -1,9 +1,7 @@
 <div class="relative h-[250vh] bg-gray-50">
   
-  <div class="sticky top-0 h-screen w-full bg-gradient-to-br from-blue-900 via-blue-800 to-blue-950 overflow-hidden flex items-center justify-center">
+  <div class="sticky top-0 h-screen w-full bg-gradient-to-br from-blue-900 to-blue-800 overflow-hidden flex items-center justify-center">
     
-    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent"></div>
-
     <div class="absolute z-10 transition-transform duration-75 ease-out pointer-events-none"
          [style.transform]="'translate(' + (scrollOffsetLerp() * 1.5) + 'px, ' + -(scrollOffsetLerp() * 0.8) + 'px) rotate(' + (45 + scrollOffsetLerp() * 0.03) + 'deg)'"
          style="bottom: 5%; left: -10%;">
@@ -11,49 +9,39 @@
       <svg class="w-40 h-40 text-white opacity-90 drop-shadow-2xl" fill="currentColor" viewBox="0 0 24 24">
         <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
       </svg>
-      <div class="absolute top-1/2 right-full w-96 h-1.5 bg-gradient-to-r from-transparent to-white/40 transform -translate-y-1/2 blur-[2px] rounded-full"></div>
     </div>
 
-    <div class="relative z-30 text-center mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
-      <span class="inline-block py-1 px-4 rounded-full bg-blue-800/60 text-blue-200 text-sm font-bold tracking-widest mb-8 border border-blue-700/50 backdrop-blur-md shadow-lg">
-        TU PRÓXIMA AVENTURA EMPIEZA AQUÍ
-      </span>
-      
-      <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight mb-8 drop-shadow-xl leading-tight">
-        Descubre el mundo <br class="hidden md:block" />con <span class="text-blue-400">triptoyou</span>
+    <div class="relative z-30 text-center mx-auto max-w-4xl px-4 flex flex-col items-center justify-center">
+      <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 drop-shadow-lg">
+        Descubre el mundo con triptoyou
       </h1>
-      
-      <p class="mt-4 text-xl md:text-3xl text-blue-100 max-w-4xl mx-auto font-light leading-relaxed drop-shadow-md">
+      <p class="text-xl md:text-2xl text-blue-100 mb-10 max-w-2xl text-center">
         Experiencias únicas, destinos increíbles y la tranquilidad de tenerlo todo organizado.
       </p>
     </div>
-
-    <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-gray-50 to-transparent z-40 pointer-events-none"></div>
+    
   </div>
 </div>
 
-<div class="relative z-50 -mt-12 max-w-6xl mx-auto px-4">
-  <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 md:p-6">
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+<div class="relative z-50 -mt-24 max-w-5xl mx-auto px-4">
+  <div class="bg-white rounded-2xl shadow-xl p-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
       
-      <div class="space-y-1">
-        <label class="text-xs font-bold text-gray-400 uppercase ml-1">Destino</label>
-        <div class="relative">
-          <input type="text" [(ngModel)]="filters.destination" placeholder="¿A dónde vas?" 
-            class="w-full pl-10 pr-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 text-sm">
-          <svg class="w-5 h-5 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-        </div>
+      <div class="flex flex-col">
+        <label class="text-sm font-bold text-gray-500 mb-1">Destino</label>
+        <input type="text" [(ngModel)]="filters.destination" placeholder="¿A dónde vas?" 
+          class="w-full px-4 py-3 bg-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white transition-all">
       </div>
 
-      <div class="space-y-1">
-        <label class="text-xs font-bold text-gray-400 uppercase ml-1">¿Cuándo?</label>
+      <div class="flex flex-col">
+        <label class="text-sm font-bold text-gray-500 mb-1">¿Cuándo?</label>
         <input type="date" [(ngModel)]="filters.date" 
-          class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 text-sm">
+          class="w-full px-4 py-3 bg-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white transition-all">
       </div>
 
-      <div class="space-y-1">
-        <label class="text-xs font-bold text-gray-400 uppercase ml-1">Personas</label>
-        <select [(ngModel)]="filters.people" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 text-sm">
+      <div class="flex flex-col">
+        <label class="text-sm font-bold text-gray-500 mb-1">Personas</label>
+        <select [(ngModel)]="filters.people" class="w-full px-4 py-3 bg-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white transition-all">
           <option [ngValue]="null">Cualquiera</option>
           <option [value]="1">1 Persona</option>
           <option [value]="2">2 Personas</option>
@@ -62,75 +50,66 @@
         </select>
       </div>
 
-      <div class="space-y-1">
-        <label class="text-xs font-bold text-gray-400 uppercase ml-1">Precio Máx. (€)</label>
+      <div class="flex flex-col">
+        <label class="text-sm font-bold text-gray-500 mb-1">Precio Máx.</label>
         <input type="number" [(ngModel)]="filters.price" placeholder="Ej: 1500" min="0"
-          class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 text-sm">
+          class="w-full px-4 py-3 bg-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white transition-all">
       </div>
 
-      <div class="flex flex-col gap-2 mt-auto">
-        <button (click)="onSearch()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group h-[48px]">
-          <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          <span>Buscar</span>
-        </button>
-        
-        <button (click)="clearFilters()" class="text-xs text-gray-500 hover:text-red-600 font-semibold text-center transition-colors cursor-pointer flex items-center justify-center gap-1">
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-          Limpiar filtros
-        </button>
-      </div>
-
+    </div>
+    
+    <div class="flex justify-between items-center mt-6">
+      <button (click)="clearFilters()" class="text-sm text-gray-500 hover:text-red-500 font-semibold transition-colors">
+        Limpiar filtros
+      </button>
+      <button (click)="onSearch()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:-translate-y-1">
+        Buscar viajes
+      </button>
     </div>
   </div>
 </div>
 
-<div id="catalogo" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-30">
+<div id="catalogo" class="max-w-6xl mx-auto px-4 py-20 relative z-30">
   @if (loading()) {
-    <div class="flex justify-center items-center h-64">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div>
+    <div class="flex justify-center py-20">
+      <div class="animate-spin rounded-full h-10 w-10 border-4 border-t-blue-600 border-blue-200"></div>
     </div>
   } @else {
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       
       @for (trip of trips(); track trip.id) {
-        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col">
+        <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col group cursor-pointer border border-gray-100">
           
-          <div class="h-48 w-full bg-gray-200 relative">
+          <div class="h-56 bg-gray-200 relative overflow-hidden">
             @if (trip.images && trip.images.length > 0 && trip.images[0].image_path) {
-              <img [src]="trip.images[0].image_path" [alt]="trip.title" class="w-full h-full object-cover">
+              <img [src]="trip.images[0].image_path" [alt]="trip.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
             } @else {
-              <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Viaje+Sin+Foto" [alt]="trip.title" class="w-full h-full object-cover">
+              <div class="w-full h-full flex items-center justify-center text-gray-400">Sin foto</div>
             }
-            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold text-gray-900 shadow">
+            <span class="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-bold shadow-md text-blue-700">
               {{ trip.price }} €
-            </div>
+            </span>
           </div>
 
           <div class="p-6 flex flex-col flex-grow">
-            <div class="uppercase tracking-wide text-xs text-blue-700 font-semibold mb-1">
-              {{ trip.destination }}
-            </div>
-            <h2 class="text-xl font-bold text-gray-900 mb-2">
-              {{ trip.title }}
-            </h2>
-            <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+            <span class="text-xs font-bold text-blue-500 uppercase tracking-widest mb-1">{{ trip.destination }}</span>
+            <h2 class="text-xl font-bold text-gray-900 mb-2">{{ trip.title }}</h2>
+            <p class="text-gray-500 text-sm mb-4 line-clamp-3 leading-relaxed">
               {{ trip.description }}
             </p>
 
-            <div class="mt-auto flex items-center justify-between pt-4 border-t border-gray-100">
-              <div class="text-sm text-gray-500 font-medium">
-                Salida: {{ trip.start_date }}
-              </div>
-              <a [routerLink]="['/trip', trip.id]" class="text-blue-700 hover:text-blue-800 font-medium text-sm transition-colors">
-                Ver detalles &rarr;
+            <div class="mt-auto border-t border-gray-100 pt-4 flex justify-between items-center">
+              <span class="text-sm font-medium text-gray-400">Salida: {{ trip.start_date }}</span>
+              <a [routerLink]="['/trip', trip.id]" class="text-blue-600 font-bold hover:text-blue-800 transition-colors">
+                Ver más &rarr;
               </a>
             </div>
           </div>
-
         </div>
       } @empty {
-        <div class="col-span-full text-center py-12 text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-          No hemos encontrado ningún viaje con esos filtros.
+        <div class="col-span-full py-16 text-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+          <p class="text-xl text-gray-400 font-semibold mb-2">Ups, no hay viajes para estos filtros</p>
+          <button (click)="clearFilters()" class="text-blue-500 font-bold hover:underline">Limpiar filtros</button>
         </div>
       }
 

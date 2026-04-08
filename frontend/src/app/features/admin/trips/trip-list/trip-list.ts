@@ -5,9 +5,9 @@ import { AdminService } from '../../../../core/services/admin';
 
 @Component({
   selector: 'app-trip-list',
-  // Aquí es donde solucionamos los 4 errores de golpe:
+
   imports: [RouterLink, CurrencyPipe, DatePipe],
-  templateUrl: './trip-list.html'
+  templateUrl: './trip-list.html',
 })
 export class TripList implements OnInit {
   private adminService = inject(AdminService);
@@ -28,7 +28,7 @@ export class TripList implements OnInit {
       error: (err) => {
         console.error('Error al cargar el catálogo del administrador', err);
         this.loading.set(false);
-      }
+      },
     });
   }
 
@@ -36,9 +36,9 @@ export class TripList implements OnInit {
     if (confirm('¿Estás seguro de que quieres eliminar este viaje de forma permanente?')) {
       this.adminService.deleteTrip(id).subscribe({
         next: () => {
-          this.trips.update(currentTrips => currentTrips.filter(t => t.id !== id));
+          this.trips.update((currentTrips) => currentTrips.filter((t) => t.id !== id));
         },
-        error: (err) => console.error('Error al eliminar el viaje', err)
+        error: (err) => console.error('Error al eliminar el viaje', err),
       });
     }
   }

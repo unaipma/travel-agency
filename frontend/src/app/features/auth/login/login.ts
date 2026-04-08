@@ -6,17 +6,16 @@ import { AuthService } from '../../../core/services/auth';
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
 })
 export class Login {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  // Definimos el formulario y sus validaciones obligatorias
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
 
   errorMessage = '';
@@ -25,7 +24,6 @@ export class Login {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.getRawValue()).subscribe({
         next: (res) => {
-          // Si el login es correcto, redirigimos según su rol
           if (res.user.is_admin) {
             this.router.navigate(['/admin']);
           } else {
@@ -34,7 +32,7 @@ export class Login {
         },
         error: (err) => {
           this.errorMessage = 'Credenciales incorrectas o problema de conexión con el servidor.';
-        }
+        },
       });
     }
   }

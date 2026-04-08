@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TripService {
   private http = inject(HttpClient);
@@ -10,7 +10,7 @@ export class TripService {
 
   getTrips(filters: any = {}) {
     let params = new HttpParams();
-    
+
     if (filters.destination) params = params.set('destination', filters.destination);
     if (filters.date) params = params.set('date', filters.date);
     if (filters.price) params = params.set('price', filters.price);
@@ -21,5 +21,12 @@ export class TripService {
 
   getTrip(id: string) {
     return this.http.get<any>(`${this.apiUrl}/trips/${id}`);
+  }
+
+  addReview(tripId: number, reviewData: { rating: number; comment: string }) {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.post<any>(`${this.apiUrl}/trips/${tripId}/reviews`, reviewData, { headers });
   }
 }

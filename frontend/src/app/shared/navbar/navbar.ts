@@ -5,7 +5,7 @@ import { AuthService } from '../../core/services/auth';
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink, RouterLinkActive],
-  templateUrl: './navbar.html'
+  templateUrl: './navbar.html',
 })
 export class Navbar {
   authService = inject(AuthService);

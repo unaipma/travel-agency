@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BookingService {
   private http = inject(HttpClient);
@@ -11,16 +11,14 @@ export class BookingService {
   bookTrip(tripId: number) {
     const token = localStorage.getItem('auth_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
-   
+
     return this.http.post<any>(`${this.apiUrl}/bookings`, { trip_id: tripId }, { headers });
   }
 
   getUserBookings() {
     const token = localStorage.getItem('auth_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
-   
+
     return this.http.get<any>(`${this.apiUrl}/bookings`, { headers });
   }
 
@@ -32,7 +30,10 @@ export class BookingService {
   verifyPayment(sessionId: string) {
     const token = localStorage.getItem('auth_token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<any>(`${this.apiUrl}/payment/verify`, { session_id: sessionId }, { headers });
+    return this.http.post<any>(
+      `${this.apiUrl}/payment/verify`,
+      { session_id: sessionId },
+      { headers },
+    );
   }
-  
 }

@@ -4,30 +4,52 @@
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
     <div class="p-6 sm:p-8 border-b border-gray-100">
       <h2 class="text-xl font-bold text-gray-900 mb-1">Datos Personales</h2>
-      <p class="text-sm text-gray-500 mb-6">Actualiza tu nombre de visualización y dirección de correo.</p>
+      <p class="text-sm text-gray-500 mb-6">
+        Actualiza tu nombre de visualización y dirección de correo.
+      </p>
 
       <form [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()" class="space-y-6 max-w-xl">
         <div>
           <label class="block text-sm font-medium text-gray-700">Nombre completo</label>
-          <input type="text" formControlName="name" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          <input
+            type="text"
+            formControlName="name"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-          <input type="email" formControlName="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+          <input
+            type="email"
+            formControlName="email"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
         </div>
 
         @if (profileMessage()) {
-          <div class="p-3 rounded-lg text-sm" 
-               [class.bg-green-50]="profileMessage()?.type === 'success'" [class.text-green-800]="profileMessage()?.type === 'success'"
-               [class.bg-red-50]="profileMessage()?.type === 'error'" [class.text-red-800]="profileMessage()?.type === 'error'">
+          <div
+            class="p-3 rounded-lg text-sm"
+            [class.bg-green-50]="profileMessage()?.type === 'success'"
+            [class.text-green-800]="profileMessage()?.type === 'success'"
+            [class.bg-red-50]="profileMessage()?.type === 'error'"
+            [class.text-red-800]="profileMessage()?.type === 'error'"
+          >
             {{ profileMessage()?.text }}
           </div>
         }
 
         <div>
-          <button type="submit" [disabled]="profileForm.invalid || loadingProfile()" class="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-6 rounded-lg transition-colors disabled:opacity-70">
-            @if (loadingProfile()) { Guardando... } @else { Guardar Cambios }
+          <button
+            type="submit"
+            [disabled]="profileForm.invalid || loadingProfile()"
+            class="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2 px-6 rounded-lg transition-colors disabled:opacity-70"
+          >
+            @if (loadingProfile()) {
+              Guardando...
+            } @else {
+              Guardar Cambios
+            }
           </button>
         </div>
       </form>
@@ -37,14 +59,29 @@
   <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
     <div class="p-6 sm:p-8">
       <h2 class="text-xl font-bold text-gray-900 mb-1">Doble Autenticación (2FA)</h2>
-      <p class="text-sm text-gray-500 mb-6">Añade una capa extra de seguridad a tu cuenta usando una app de autenticación como Google Authenticator.</p>
-      
-      <div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
+      <p class="text-sm text-gray-500 mb-6">
+        Añade una capa extra de seguridad a tu cuenta usando una app de autenticación como Google
+        Authenticator.
+      </p>
+
+      <div
+        class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl"
+      >
         <div>
-          <p class="font-medium text-gray-900">Estado: <span class="text-gray-500 font-normal">Desactivado</span></p>
+          <p class="font-medium text-gray-900">
+            Estado: <span class="text-gray-500 font-normal">Desactivado</span>
+          </p>
         </div>
-        <button (click)="onEnable2FA()" [disabled]="loading2FA()" class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-4 rounded-lg transition-colors shadow-sm">
-          @if (loading2FA()) { Cargando... } @else { Activar 2FA }
+        <button
+          (click)="onEnable2FA()"
+          [disabled]="loading2FA()"
+          class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-4 rounded-lg transition-colors shadow-sm"
+        >
+          @if (loading2FA()) {
+            Cargando...
+          } @else {
+            Activar 2FA
+          }
         </button>
       </div>
     </div>
@@ -53,26 +90,43 @@
   <div class="bg-white rounded-2xl shadow-sm border border-red-200 overflow-hidden">
     <div class="p-6 sm:p-8">
       <h2 class="text-xl font-bold text-red-600 mb-1">Borron y...</h2>
-      <p class="text-sm text-gray-500 mb-6">Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, asegúrate de estar seguro.</p>
-      
+      <p class="text-sm text-gray-500 mb-6">
+        Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, asegúrate de estar seguro.
+      </p>
+
       @if (confirmDelete()) {
         <div class="p-4 bg-red-50 border border-red-200 rounded-xl mb-4">
-          <p class="text-sm text-red-800 mb-3 font-medium">¿Estás absolutamente seguro? Esto cancelará todas tus reservas activas.</p>
+          <p class="text-sm text-red-800 mb-3 font-medium">
+            ¿Estás absolutamente seguro? Esto cancelará todas tus reservas activas.
+          </p>
           <div class="flex space-x-3">
-            <button (click)="onDeleteAccount()" [disabled]="loadingDelete()" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-              @if (loadingDelete()) { Eliminando... } @else { Sí, eliminar definitivamente }
+            <button
+              (click)="onDeleteAccount()"
+              [disabled]="loadingDelete()"
+              class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+            >
+              @if (loadingDelete()) {
+                Eliminando...
+              } @else {
+                Sí, eliminar definitivamente
+              }
             </button>
-            <button (click)="confirmDelete.set(false)" class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-4 rounded-lg transition-colors">
+            <button
+              (click)="confirmDelete.set(false)"
+              class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-4 rounded-lg transition-colors"
+            >
               Cancelar
             </button>
           </div>
         </div>
       } @else {
-        <button (click)="onDeleteAccount()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-medium py-2 px-6 rounded-lg transition-colors">
+        <button
+          (click)="onDeleteAccount()"
+          class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-medium py-2 px-6 rounded-lg transition-colors"
+        >
           Eliminar Cuenta
         </button>
       }
     </div>
   </div>
-
 </div>

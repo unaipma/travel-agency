@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-// Importación de los componentes generados
 import { Home } from './features/public/home/home';
 import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
@@ -17,113 +16,107 @@ import { Contact } from './features/public/pages/contact/contact';
 import { Privacy } from './features/public/pages/privacy/privacy';
 import { Terms } from './features/public/pages/terms/terms';
 
-
-
 export const routes: Routes = [
-  { 
-    path: '', 
+  {
+    path: '',
     component: Home,
-    title: 'Inicio - TravelAgency'
+    title: 'Inicio - triptoyou',
   },
-  { 
-    path: 'trips', 
-    component: Home, 
-    title: 'Catálogo - TravelAgency'
+  {
+    path: 'trips',
+    component: Home,
+    title: 'Catálogo - triptoyou',
   },
-  { 
-    path: 'login', 
+  {
+    path: 'login',
     component: Login,
-    title: 'Iniciar Sesión - TravelAgency'
+    title: 'Iniciar Sesión - triptoyou',
   },
-  { 
-    path: 'register', 
+  {
+    path: 'register',
     component: Register,
-    title: 'Registro - TravelAgency'
+    title: 'Registro - triptoyou',
   },
-  { 
-    path: 'admin', 
+  {
+    path: 'admin',
     component: Dashboard,
-    title: 'Panel de Administración'
+    title: 'Panel de Administración',
   },
-  { 
-    path: 'admin/trips', 
+  {
+    path: 'admin/trips',
     component: TripList,
-    title: 'Gestión de Viajes - TravelAgency'
+    title: 'Gestión de Viajes - triptoyou',
   },
-  { 
-    path: 'admin/trips/new', 
+  {
+    path: 'admin/trips/new',
     component: TripForm,
-    title: 'Añadir Viaje - TravelAgency'
+    title: 'Añadir Viaje - triptoyou',
   },
-  { 
-    path: 'admin/trips/edit/:id', 
+  {
+    path: 'admin/trips/edit/:id',
     component: TripForm,
-    title: 'Editar Viaje - TravelAgency'
+    title: 'Editar Viaje - triptoyou',
   },
-  { 
-    path: 'trip/:id', 
+  {
+    path: 'trip/:id',
     component: TripDetail,
-    title: 'Detalles del Viaje'
+    title: 'Detalles del Viaje',
   },
-  { 
-  path: 'perfil', 
-  component: Profile,
-  title: 'Mi Perfil'
-},
+  {
+    path: 'perfil',
+    component: Profile,
+    title: 'Mi Perfil',
+  },
 
+  {
+    path: 'admin/bookings',
+    component: BookingList,
+    title: 'Gestión de Reservas',
+  },
 
-{ 
-  path: 'admin/bookings', 
-  component: BookingList,
-  title: 'Gestión de Reservas'
-}, 
+  {
+    path: 'pago-completado',
+    component: PaymentSuccess,
+    title: 'Pago Completado | triptoyou',
+  },
 
-{ 
-  path: 'pago-completado', 
-  component: PaymentSuccess,
-  title: 'Pago Completado | triptoyou'
-},
- 
+  {
+    path: 'configuracion',
+    component: Settings,
+    title: 'Configuración | triptoyou',
+  },
 
-{ 
-  path: 'configuracion', 
-  component: Settings,
-  title: 'Configuración | triptoyou'
-},
+  {
+    path: 'sobre-nosotros',
+    component: About,
+    title: 'Sobre Nosotros | triptoyou',
+  },
 
-{ 
-  path: 'sobre-nosotros', 
-  component: About,
-  title: 'Sobre Nosotros | triptoyou'
-},
+  {
+    path: 'contacto',
+    component: Contact,
+    title: 'Contacto | triptoyou',
+  },
 
-{ 
-  path: 'contacto', 
-  component: Contact,
-  title: 'Contacto | triptoyou'
-},
+  {
+    path: 'privacidad',
+    component: Privacy,
+    title: 'Política de Privacidad | triptoyou',
+  },
 
-{ 
-  path: 'privacidad',
-  component: Privacy,
-  title: 'Política de Privacidad | triptoyou'
-},
+  {
+    path: 'terminos',
+    component: Terms,
+    title: 'Términos y Condiciones | triptoyou',
+  },
 
-{ 
-  path: 'terminos', 
-  component: Terms,
-  title: 'Términos y Condiciones | triptoyou'
-},
-  
-{ 
-  path: '**', 
-  redirectTo: '' 
-},
-  
-    
-  
-  { 
-    path: '**', 
-    redirectTo: '' 
-  }
+  {
+    path: '**',
+    redirectTo: '',
+  },
+
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

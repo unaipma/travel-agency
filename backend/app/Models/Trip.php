@@ -26,4 +26,7 @@ class Trip extends Model
     {
         return $this->hasMany(TripImage::class);
     }
+    public function reviews() {
+        return $this->hasMany(Review::class)->latest();
+    }
 }

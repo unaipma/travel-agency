@@ -13,6 +13,6 @@
         <p>Esto puede deberse a falta de plazas o a un problema con las fechas. Por favor, contáctanos para más información o explora otros destinos en nuestro catálogo.</p>
     @endif
     
-    <p>¡Un saludo desde TravelAgency!</p>
+    <p>¡Un saludo desde triptoyou!</p>
 </body>
 </html>
