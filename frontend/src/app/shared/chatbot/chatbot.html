@@ -29,8 +29,8 @@
                  [class.bg-white]="msg.role === 'model'"
                  [class.text-gray-800]="msg.role === 'model'"
                  [class.border]="msg.role === 'model'"
-                 class="max-w-[80%] p-3 rounded-2xl text-sm shadow-sm">
-              {{ msg.text }}
+                 class="max-w-[80%] p-3 rounded-2xl text-sm shadow-sm"
+                 [innerHTML]="msg.text | markdown">
             </div>
           </div>
         }

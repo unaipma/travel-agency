@@ -1,11 +1,12 @@
 import { Component, inject, signal, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../core/services/chat';
+import { MarkdownPipe } from '../pipes/markdown.pipe';
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MarkdownPipe],
   templateUrl: './chatbot.html',
 })
 export class Chatbot implements AfterViewChecked {
