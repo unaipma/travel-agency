@@ -53,6 +53,15 @@ class AuthController extends Controller
             ]);
         }
 
+        // Si tiene 2FA activado, no devolvemos el token todavía
+        if ($user->two_factor_enabled) {
+            return response()->json([
+                'two_factor_required' => true,
+                'email' => $user->email,
+                'message' => 'Se requiere código de verificación 2FA'
+            ]);
+        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -71,5 +80,33 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Sesión cerrada correctamente'
         ]);
+    }
+
+    public function verify2faLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'code' => 'required|string',
+        ]);
+
+        $user = \App\Models\User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
+        $google2fa = new \PragmaRX\Google2FA\Google2FA();
+        $valid = $google2fa->verifyKey($user->two_factor_secret, $request->code);
+
+        if ($valid) {
+            $token = $user->createToken('auth_token')->plainTextToken;
+            return response()->json([
+                'user' => $user,
+                'token' => $token,
+                'message' => 'Inicio de sesión exitoso'
+            ]);
+        }
+
+        return response()->json(['error' => 'Código incorrecto'], 400);
     }
 }

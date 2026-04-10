@@ -31,6 +31,18 @@ export class AuthService {
     );
   }
 
+  verify2faLogin(email: string, code: string) {
+    return this.http.post<any>(`${this.apiUrl}/2fa/verify-login`, { email, code }).pipe(
+      tap((response) => {
+        if (response.token) {
+          localStorage.setItem('auth_token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          this.currentUser.set(response.user);
+        }
+      })
+    );
+  }
+
   register(data: any) {
     return this.http.post<any>(`${this.apiUrl}/register`, data);
   }
@@ -45,20 +57,61 @@ export class AuthService {
     return localStorage.getItem('auth_token');
   }
   updateProfile(data: { name: string; email: string }) {
-    const token = localStorage.getItem('auth_token');
+    const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<any>(`${this.apiUrl}/user/profile`, data, { headers });
+    return this.http.put<any>(`${this.apiUrl}/user/profile`, data, { headers }).pipe(
+      tap((res) => {
+        if (res.user) {
+          this.currentUser.set(res.user);
+          localStorage.setItem('user', JSON.stringify(res.user));
+        }
+      })
+    );
   }
 
   deleteAccount() {
-    const token = localStorage.getItem('auth_token');
+    const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // Nota: Asegúrate de que esta ruta exista en el backend. 
+    // Si no existe, podrías necesitar usar /user con método DELETE.
     return this.http.delete<any>(`${this.apiUrl}/user`, { headers });
   }
 
-  enable2FA() {
-    const token = localStorage.getItem('auth_token');
+  // --- MÉTODOS 2FA ---
+
+  generate2fa() {
+    const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<any>(`${this.apiUrl}/user/two-factor-authentication`, {}, { headers });
+    return this.http.post<any>(`${this.apiUrl}/2fa/generate`, {}, { headers });
+  }
+
+  enable2fa(code: string) {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<any>(`${this.apiUrl}/2fa/enable`, { code }, { headers }).pipe(
+      tap(() => {
+        const user = this.currentUser();
+        if (user) {
+          const updatedUser = { ...user, two_factor_enabled: true };
+          this.currentUser.set(updatedUser);
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+      })
+    );
+  }
+
+  disable2fa() {
+    const token = this.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<any>(`${this.apiUrl}/2fa/disable`, {}, { headers }).pipe(
+      tap(() => {
+        const user = this.currentUser();
+        if (user) {
+          const updatedUser = { ...user, two_factor_enabled: false };
+          this.currentUser.set(updatedUser);
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+      })
+    );
   }
 }

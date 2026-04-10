@@ -12,10 +12,13 @@ use App\Http\Controllers\Api\Admin\TripController as AdminTripController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\TwoFactorController;
+use App\Http\Controllers\Api\ChatController;
 
 
 Route::get('/trips', [TripController::class, 'index']);
 Route::get('/trips/{id}', [TripController::class, 'show']);
+Route::post('/chat', [ChatController::class, 'chat']);
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -23,6 +26,7 @@ Route::get('/user', function (Request $request) {
 //AuthController
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/2fa/verify-login', [AuthController::class, 'verify2faLogin']);
 
 //rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
@@ -43,6 +47,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // reseñas
     Route::post('/trips/{id}/reviews', [TripController::class, 'addReview']);
+
+    //2FA
+    Route::post('/2fa/generate', [TwoFactorController::class, 'generateSecret']);
+    Route::post('/2fa/enable', [TwoFactorController::class, 'enable']);
+    Route::post('/2fa/disable', [TwoFactorController::class, 'disable']);
 });
 
 
