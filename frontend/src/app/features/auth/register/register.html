@@ -1,16 +1,16 @@
-<div class="min-h-[80vh] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
+<div class="min-h-[80vh] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white dark:bg-zinc-950 transition-colors duration-300">
   <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
     <div
       class="w-12 h-12 bg-blue-700 rounded-lg flex items-center justify-center text-white font-bold text-2xl shadow-sm mx-auto mb-4"
     >
       T
     </div>
-    <h2 class="text-3xl font-extrabold text-gray-900">Crea tu cuenta</h2>
-    <p class="mt-2 text-sm text-gray-600">
+    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-zinc-100 transition-colors">Crea tu cuenta</h2>
+    <p class="mt-2 text-sm text-gray-600 dark:text-zinc-400 transition-colors">
       ¿Ya tienes una cuenta?
       <a
         routerLink="/login"
-        class="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+        class="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors"
       >
         Inicia sesión aquí
       </a>
@@ -18,22 +18,22 @@
   </div>
 
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-8 px-4 shadow-sm border border-gray-100 sm:rounded-xl sm:px-10">
+    <div class="bg-white dark:bg-zinc-900 py-8 px-4 shadow-xl dark:shadow-none border border-gray-100 dark:border-zinc-800 sm:rounded-3xl sm:px-10 transition-colors">
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-700">Nombre completo</label>
+          <label for="name" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 transition-colors">Nombre completo</label>
           <div class="mt-1">
             <input
               id="name"
               type="text"
               formControlName="name"
-              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              class="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-zinc-100 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm transition-all"
             />
           </div>
         </div>
 
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700"
+          <label for="email" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 transition-colors"
             >Correo electrónico</label
           >
           <div class="mt-1">
@@ -41,26 +41,26 @@
               id="email"
               type="email"
               formControlName="email"
-              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              class="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-zinc-100 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm transition-all"
             />
           </div>
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+          <label for="password" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 transition-colors">Contraseña</label>
           <div class="mt-1">
             <input
               id="password"
               type="password"
               formControlName="password"
-              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              class="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-gray-900 dark:text-zinc-100 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm transition-all"
             />
           </div>
-          <p class="mt-1 text-xs text-gray-500">Debe tener al menos 8 caracteres.</p>
+          <p class="mt-1 text-xs text-gray-500 dark:text-zinc-500">Debe tener al menos 8 caracteres.</p>
         </div>
 
         <div>
-          <label for="password_confirmation" class="block text-sm font-medium text-gray-700"
+          <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-zinc-300 transition-colors"
             >Confirmar contraseña</label
           >
           <div class="mt-1">
@@ -68,14 +68,14 @@
               id="password_confirmation"
               type="password"
               formControlName="password_confirmation"
-              class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              class="appearance-none block w-full px-4 py-3 border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm transition-all"
             />
           </div>
         </div>
 
         @if (errorMessage()) {
           <div
-            class="p-3 bg-red-50 text-red-700 border border-red-200 rounded-md text-sm text-center"
+            class="text-red-700 dark:text-red-400 text-sm text-center bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/20 p-3 rounded-xl transition-colors"
           >
             {{ errorMessage() }}
           </div>

@@ -1,2 +1,75 @@
 /* You can add global styles to this file, and also import other style files */
 @use "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    @apply transition-colors duration-500 ease-in-out;
+  }
+
+  .dark body {
+    background-color: #09090b; /* Zinc 950 */
+    color: #f4f4f5;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --background: #09090b;
+    --foreground: #f4f4f5;
+    --card: #18181b;
+    --card-foreground: #fafafa;
+    --border: #27272a;
+    --primary: #3b82f6;
+  }
+}
+
+/* Base Dark Mode Transitions */
+* {
+    @apply transition-colors duration-300;
+}
+
+/* Glassmorphism for Dark Mode */
+.dark .glass-dark {
+  background: rgba(24, 24, 27, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Refined Cards */
+.dark .card-premium {
+  background: #18181b;
+  border: 1px solid #27272a;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+.dark .card-premium:hover {
+  border-color: #3f3f46;
+  background: #1c1c1f;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+/* Explicit overrides for common white/gray containers to be more "Premium Zinc" */
+.dark .bg-white,
+.dark .bg-gray-50 {
+  background-color: #18181b !important; /* Zinc 900 for containers */
+}
+
+.dark .bg-gray-100 {
+  background-color: #27272a !important; /* Zinc 800 for nested items */
+}
+
+.dark .text-gray-900 {
+  color: #fafafa !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500 {
+  color: #a1a1aa !important; /* Zinc 400 */
+}
+
+.dark .border-gray-100,
+.dark .border-gray-200 {
+  border-color: #27272a !important;
+}

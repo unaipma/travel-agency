@@ -27,10 +27,11 @@ class TripController extends Controller
         'destination' => 'required|string|max:255',
         'description' => 'required|string',
         'price' => 'required|numeric',
+        'max_people' => 'required|integer|min:1',
         'start_date' => 'required|date',
         'end_date' => 'required|date',
         'images' => 'nullable|array',
-        'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         'cover_index' => 'nullable|integer'
     ]);
 
@@ -39,19 +40,55 @@ class TripController extends Controller
 
     // 3. LA MAGIA DE LA IMAGEN: Comprobar si viene un archivo y guardarlo
     if ($request->hasFile('images')) {
-        $coverIndex = $request->input('cover_index', 0); // Por defecto la 0 si no llega
+        $coverIndex = $request->input('cover_index', 0);
 
         foreach ($request->file('images') as $index => $file) {
-            $path = $file->store('trips', 'public');
+            $base64Image = $this->convertToWebpBase64($file);
             
             $trip->images()->create([
-                'image_path' => url('storage/' . $path),
-                'is_cover' => ($index == $coverIndex) // true si el índice coincide, false si no
+                'image_path' => $base64Image,
+                'is_primary' => ($index == $coverIndex)
             ]);
         }
     }
 
     return response()->json(['message' => 'Viaje creado correctamente', 'data' => $trip], 201);
+}
+
+/**
+ * Convierte una imagen subida a formato WebP comprimido en Base64
+ */
+private function convertToWebpBase64($file)
+{
+    $mime = $file->getMimeType();
+    $path = $file->getRealPath();
+
+    // Crear recurso de imagen según el tipo
+    if ($mime == 'image/jpeg' || $mime == 'image/jpg') {
+        $image = imagecreatefromjpeg($path);
+    } elseif ($mime == 'image/png') {
+        $image = imagecreatefrompng($path);
+        // Preservar transparencia
+        imagepalettetotruecolor($image);
+        imagealphablending($image, true);
+        imagesavealpha($image, true);
+    } elseif ($mime == 'image/webp') {
+        $image = imagecreatefromwebp($path);
+    } else {
+        // Si no es compatible, devolvemos el base64 original sin comprimir
+        return 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($path));
+    }
+
+    // Usar un buffer para capturar la salida de WebP
+    ob_start();
+    // Calidad 75 es el estándar de oro para WebP (gran ahorro, buena calidad)
+    imagewebp($image, null, 75);
+    $webpData = ob_get_clean();
+    
+    // Liberar memoria
+    imagedestroy($image);
+
+    return 'data:image/webp;base64,' . base64_encode($webpData);
 }
 
   
@@ -69,20 +106,27 @@ class TripController extends Controller
 
     $validated = $request->validate([
         'title' => 'required|string|max:255',
-        // ... el resto de tus validaciones ...
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+        'destination' => 'required|string|max:255',
+        'description' => 'required|string',
+        'price' => 'required|numeric',
+        'max_people' => 'required|integer|min:1',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120'
     ]);
 
     $trip->update($validated);
 
     if ($request->hasFile('image')) {
-        $path = $request->file('image')->store('trips', 'public');
+        $file = $request->file('image');
+        $base64Image = $this->convertToWebpBase64($file);
 
         // Opción A: Si cada viaje solo tiene 1 foto, puedes borrar las anteriores de la base de datos
         $trip->images()->delete(); 
 
         $trip->images()->create([
-            'image_path' => url('storage/' . $path)
+            'image_path' => $base64Image,
+            'is_primary' => true
         ]);
     }
 
@@ -92,14 +136,8 @@ class TripController extends Controller
     public function destroy($id)
     {
         $trip = Trip::with('images')->findOrFail($id);
-        foreach ($trip->images as $image) {
-            $path = str_replace(url('storage') . '/', '', $image->image_path);
-            
-            if (Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->delete($path);
-            }
-        }
-
+        
+        // No necesitamos borrar archivos del disco porque están en la DB (Base64)
         $trip->delete();
 
         return response()->json([

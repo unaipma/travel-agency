@@ -1,21 +1,21 @@
-<div class="max-w-6xl mx-auto px-4 py-10">
+<div class="max-w-6xl mx-auto px-4 py-10 transition-colors duration-300">
   @if (loading()) {
     <div class="flex justify-center py-20">
       <div class="animate-spin rounded-full h-10 w-10 border-4 border-t-blue-600 border-blue-200"></div>
     </div>
   } @else if (trip()) {
     
-    <div class="mb-6">
-      <a routerLink="/" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors">
+    <div class="mb-6 transition-colors">
+      <a routerLink="/" class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
         Volver al catálogo
       </a>
     </div>
 
-    <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-10 border border-gray-100">
+    <div class="bg-white dark:bg-zinc-900 rounded-[2.5rem] shadow-2xl dark:shadow-none overflow-hidden mb-12 border border-gray-100 dark:border-zinc-800 transition-all duration-500">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
         
-        <div class="p-4 sm:p-6 bg-gray-50 flex flex-col items-center justify-center">
+        <div class="p-4 sm:p-6 bg-gray-50 dark:bg-zinc-950 flex flex-col items-center justify-center transition-colors">
           <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-sm mb-4 bg-gray-200">
             @if (activeImage()) {
               <img [src]="activeImage()" [alt]="trip().title" class="w-full h-full object-cover transition-opacity duration-300">
@@ -43,32 +43,32 @@
 
         <div class="p-8 sm:p-10 flex flex-col justify-between">
           <div>
-            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider rounded-lg mb-3">
+            <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-bold uppercase tracking-wider rounded-lg mb-3">
               {{ trip().destination }}
             </span>
-            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-2">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-zinc-100 leading-tight mb-2">
               {{ trip().title }}
             </h1>
             
             <div class="flex items-end gap-2 my-6">
-              <span class="text-4xl font-extrabold text-blue-600">{{ trip().price | currency:'EUR':'symbol' }}</span>
-              <span class="text-gray-500 font-medium pb-1">/ persona</span>
+              <span class="text-4xl font-extrabold text-blue-600 dark:text-blue-400">{{ trip().price | currency:'EUR':'symbol' }}</span>
+              <span class="text-gray-500 dark:text-zinc-500 font-medium pb-1">/ persona</span>
             </div>
 
             <div class="grid grid-cols-2 gap-4 mb-8">
-              <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 text-center">
-                <span class="block text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">Salida</span>
-                <span class="font-semibold text-gray-900">{{ trip().start_date | date:'shortDate' }}</span>
+              <div class="bg-gray-50 dark:bg-zinc-950/50 p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 text-center transition-all">
+                <span class="block text-xs text-gray-400 dark:text-zinc-500 uppercase font-bold tracking-widest mb-1">Salida</span>
+                <span class="font-bold text-gray-900 dark:text-zinc-100 text-lg">{{ trip().start_date | date:'shortDate' }}</span>
               </div>
-              <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 text-center">
-                <span class="block text-xs text-gray-500 uppercase font-bold tracking-widest mb-1">Regreso</span>
-                <span class="font-semibold text-gray-900">{{ trip().end_date | date:'shortDate' }}</span>
+              <div class="bg-gray-50 dark:bg-zinc-950/50 p-5 rounded-3xl border border-gray-100 dark:border-zinc-800 text-center transition-all">
+                <span class="block text-xs text-gray-400 dark:text-zinc-500 uppercase font-bold tracking-widest mb-1">Regreso</span>
+                <span class="font-bold text-gray-900 dark:text-zinc-100 text-lg">{{ trip().end_date | date:'shortDate' }}</span>
               </div>
             </div>
 
             <div class="mb-8">
-              <h3 class="text-lg font-bold text-gray-900 mb-2">Acerca del Viaje</h3>
-              <p class="text-gray-600 leading-relaxed whitespace-pre-line text-sm sm:text-base">
+              <h3 class="text-lg font-bold text-gray-900 dark:text-zinc-100 mb-2">Acerca del Viaje</h3>
+              <p class="text-gray-600 dark:text-zinc-400 leading-relaxed whitespace-pre-line text-sm sm:text-base">
                 {{ trip().description }}
               </p>
             </div>
@@ -95,14 +95,14 @@
                   }
                 </button>
                 @if (errorMessage()) {
-                  <p class="text-red-500 text-center text-sm mt-3 font-bold bg-red-50 p-2 rounded-lg">{{ errorMessage() }}</p>
+                  <p class="text-red-500 dark:text-red-400 text-center text-sm mt-3 font-bold bg-red-50 dark:bg-red-950/30 p-2 rounded-lg border border-red-100 dark:border-red-900/20 transition-colors">{{ errorMessage() }}</p>
                 }
               }
 
             } @else {
-              <div class="bg-gray-50 p-6 rounded-2xl text-center border-2 border-gray-100">
-                <p class="text-gray-600 font-medium mb-3">Únete para asegurar tu plaza</p>
-                <a routerLink="/login" class="inline-block w-full bg-white text-blue-600 font-bold py-3 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all">
+              <div class="bg-gray-50 dark:bg-zinc-800 p-6 rounded-2xl text-center border-2 border-gray-100 dark:border-zinc-700 transition-colors">
+                <p class="text-gray-600 dark:text-zinc-400 font-medium mb-3">Únete para asegurar tu plaza</p>
+                <a routerLink="/login" class="inline-block w-full bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 font-bold py-3 rounded-xl border border-gray-200 dark:border-zinc-700 shadow-sm hover:shadow-md transition-all">
                   Iniciar Sesión
                 </a>
               </div>
@@ -114,12 +114,12 @@
     </div>
 
     <!-- Mapa -->
-    <div class="bg-white rounded-3xl shadow-md overflow-hidden mb-12 border border-gray-100">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl shadow-md dark:shadow-none overflow-hidden mb-12 border border-gray-100 dark:border-zinc-800 transition-colors">
       <div class="p-6 sm:p-8 pb-4">
-        <h2 class="text-2xl font-bold text-gray-900">Ubicación</h2>
-        <p class="text-gray-500 text-sm mt-1">Punto de encuentro del destino</p>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-zinc-100 transition-colors">Ubicación</h2>
+        <p class="text-gray-500 dark:text-zinc-500 text-sm mt-1">Punto de encuentro del destino</p>
       </div>
-      <div class="h-80 w-full bg-gray-100 relative">
+      <div class="h-80 w-full bg-gray-100 dark:bg-zinc-950 relative">
         @if (trip().location) {
           <iframe 
             width="100%" 
@@ -139,15 +139,15 @@
 
     <!-- Opiniones -->
     <div class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">Experiencias de Viajeros</h2>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-zinc-100 mb-6 transition-colors">Experiencias de Viajeros</h2>
 
       @if (authService.currentUser()) {
-        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-blue-100 mb-8 relative overflow-hidden">
+        <div class="bg-white dark:bg-zinc-900 p-6 sm:p-8 rounded-3xl shadow-sm border border-blue-100 dark:border-zinc-800 mb-8 relative overflow-hidden transition-colors">
           <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
-          <h4 class="font-bold text-lg mb-4 text-gray-900">{{ hasUserReview() ? 'Actualiza tu reseña' : 'Comparte tu experiencia' }}</h4>
+          <h4 class="font-bold text-lg mb-4 text-gray-900 dark:text-zinc-100 transition-colors">{{ hasUserReview() ? 'Actualiza tu reseña' : 'Comparte tu experiencia' }}</h4>
           
           <div class="mb-5">
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Valoración</label>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-zinc-300 mb-2">Valoración</label>
             <div class="flex gap-1 cursor-pointer" (mouseleave)="clearHover()">
               @for (star of [1, 2, 3, 4, 5]; track star) {
                 <svg 
@@ -162,9 +162,9 @@
           </div>
 
           <div class="mb-5">
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Tu Comentario</label>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-zinc-300 mb-2">Tu Comentario</label>
             <textarea [(ngModel)]="reviewComment" rows="3" placeholder="¿Qué fue lo que más te gustó?" 
-                      class="w-full border-2 border-gray-100 bg-gray-50 p-4 rounded-xl focus:ring-0 focus:border-blue-400 outline-none transition-colors"></textarea>
+                      class="w-full border-2 border-gray-100 dark:border-zinc-800 bg-gray-50 dark:bg-zinc-950 dark:text-zinc-100 p-4 rounded-xl focus:ring-0 focus:border-blue-400 outline-none transition-colors"></textarea>
           </div>
 
           <div class="flex justify-end">
@@ -180,12 +180,12 @@
           </div>
         </div>
       } @else {
-        <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between mb-8">
+        <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-zinc-800 flex items-center justify-between mb-8 transition-colors">
           <div>
-            <h4 class="font-bold text-gray-900">¿Viajaste con nosotros?</h4>
-            <p class="text-sm text-gray-500">Inicia sesión para compartir tu experiencia con fotos y estrellas.</p>
+            <h4 class="font-bold text-gray-900 dark:text-zinc-100 transition-colors">¿Viajaste con nosotros?</h4>
+            <p class="text-sm text-gray-500 dark:text-zinc-500 transition-colors">Inicia sesión para compartir tu experiencia con fotos y estrellas.</p>
           </div>
-          <a routerLink="/login" class="bg-gray-100 text-gray-700 font-bold px-6 py-2 rounded-xl hover:bg-gray-200 transition-colors whitespace-nowrap ml-4">
+          <a routerLink="/login" class="bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 font-bold px-6 py-2 rounded-xl hover:bg-gray-200 dark:hover:bg-zinc-700 transition-colors whitespace-nowrap ml-4">
             Entrar
           </a>
         </div>
@@ -194,30 +194,30 @@
       <div class="space-y-4">
         @if (trip().reviews && trip().reviews.length > 0) {
           @for (review of trip().reviews; track review.id) {
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div class="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-zinc-800 transition-colors">
               <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg">
+                  <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-lg transition-colors">
                     {{ review.user_name.charAt(0) | uppercase }}
                   </div>
                   <div>
-                    <h4 class="font-bold text-gray-900 leading-tight">{{ review.user_name }}</h4>
-                    <span class="text-xs text-gray-400 font-medium">{{ review.created_at }}</span>
+                    <h4 class="font-bold text-gray-900 dark:text-zinc-100 leading-tight transition-colors">{{ review.user_name }}</h4>
+                    <span class="text-xs text-gray-400 dark:text-zinc-500 font-medium transition-colors">{{ review.created_at }}</span>
                   </div>
                 </div>
                 <div class="flex text-yellow-400">
                   @for (star of [1, 2, 3, 4, 5]; track star) {
-                    <svg class="w-5 h-5 drop-shadow-sm" [class.text-yellow-400]="star <= review.rating" [class.text-gray-200]="star > review.rating" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 drop-shadow-sm transition-colors" [class.text-yellow-400]="star <= review.rating" [class.text-gray-200]="star > review.rating" [class.dark:text-zinc-700]="star > review.rating" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
                   }
                 </div>
               </div>
-              <p class="text-gray-700 italic">"{{ review.comment }}"</p>
+              <p class="text-gray-700 dark:text-zinc-300 italic transition-colors">"{{ review.comment }}"</p>
             </div>
           }
         } @else {
-          <div class="text-center py-12 bg-white rounded-3xl border-2 border-dashed border-gray-200">
+          <div class="text-center py-12 bg-white dark:bg-zinc-800 rounded-3xl border-2 border-dashed border-gray-200 dark:border-zinc-700 transition-colors">
             <span class="text-4xl block mb-2">⭐</span>
             <p class="text-gray-500 font-medium">Sé el primero en valorar esta aventura.</p>
           </div>
@@ -226,7 +226,7 @@
     </div>
 
   } @else {
-    <div class="text-center py-32 bg-white rounded-3xl shadow-sm mt-8 border border-gray-100">
+    <div class="text-center py-32 bg-white dark:bg-zinc-900 rounded-3xl shadow-sm mt-8 border border-gray-100 dark:border-zinc-800 transition-colors">
       <span class="text-6xl block mb-4">🌍</span>
       <h2 class="text-2xl font-bold text-gray-900 mb-2">Destino inexplorado</h2>
       <p class="text-gray-500 mb-6">No hemos encontrado el viaje que estás buscando.</p>

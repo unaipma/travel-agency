@@ -32,6 +32,7 @@ export class TripForm implements OnInit {
     destination: ['', Validators.required],
     description: ['', Validators.required],
     price: [0, [Validators.required, Validators.min(1)]],
+    max_people: [10, [Validators.required, Validators.min(1)]],
     start_date: ['', Validators.required],
     end_date: ['', Validators.required],
   });
@@ -54,6 +55,7 @@ export class TripForm implements OnInit {
           destination: trip.destination,
           description: trip.description,
           price: trip.price,
+          max_people: trip.max_people,
           start_date: trip.start_date ? trip.start_date.split('T')[0] : '',
           end_date: trip.end_date ? trip.end_date.split('T')[0] : '',
         });
