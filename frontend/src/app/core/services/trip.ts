@@ -1,12 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TripService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://backend.ddev.site/api';
+  private apiUrl = environment.apiUrl;
 
   getTrips(filters: any = {}) {
     let params = new HttpParams();

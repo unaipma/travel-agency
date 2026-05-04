@@ -1,12 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://backend.ddev.site/api/admin';
+  private apiUrl = `${environment.apiUrl}/admin`;
 
   getDashboardStats() {
     const token = localStorage.getItem('auth_token');

@@ -1,12 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://backend.ddev.site/api';
+  private apiUrl = environment.apiUrl;
 
   bookTrip(tripId: number) {
     const token = localStorage.getItem('auth_token');
