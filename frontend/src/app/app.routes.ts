@@ -1,118 +1,100 @@
 import { Routes } from '@angular/router';
 
-import { Home } from './features/public/home/home';
-import { Login } from './features/auth/login/login';
-import { Register } from './features/auth/register/register';
-import { Dashboard } from './features/admin/dashboard/dashboard';
-import { TripList } from './features/admin/trips/trip-list/trip-list';
-import { TripForm } from './features/admin/trips/trip-form/trip-form';
-import { TripDetail } from './features/public/trip-detail/trip-detail';
-import { Profile } from './features/public/profile/profile';
-import { BookingList } from './features/admin/bookings/booking-list/booking-list';
-import { PaymentSuccess } from './features/public/payment-success/payment-success';
-import { Settings } from './features/public/settings/settings';
-import { About } from './features/public/pages/about/about';
-import { Contact } from './features/public/pages/contact/contact';
-import { Privacy } from './features/public/pages/privacy/privacy';
-import { Terms } from './features/public/pages/terms/terms';
-
 export const routes: Routes = [
   {
     path: '',
-    component: Home,
+    loadComponent: () => import('./features/public/home/home').then((m) => m.Home),
     title: 'Inicio - triptoyou',
   },
   {
     path: 'trips',
-    component: Home,
+    loadComponent: () => import('./features/public/home/home').then((m) => m.Home),
     title: 'Catálogo - triptoyou',
   },
   {
     path: 'login',
-    component: Login,
+    loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
     title: 'Iniciar Sesión - triptoyou',
   },
   {
     path: 'register',
-    component: Register,
+    loadComponent: () => import('./features/auth/register/register').then((m) => m.Register),
     title: 'Registro - triptoyou',
   },
   {
     path: 'admin',
-    component: Dashboard,
+    loadComponent: () => import('./features/admin/dashboard/dashboard').then((m) => m.Dashboard),
     title: 'Panel de Administración',
   },
   {
     path: 'admin/trips',
-    component: TripList,
+    loadComponent: () => import('./features/admin/trips/trip-list/trip-list').then((m) => m.TripList),
     title: 'Gestión de Viajes - triptoyou',
   },
   {
     path: 'admin/trips/new',
-    component: TripForm,
+    loadComponent: () => import('./features/admin/trips/trip-form/trip-form').then((m) => m.TripForm),
     title: 'Añadir Viaje - triptoyou',
   },
   {
     path: 'admin/trips/edit/:id',
-    component: TripForm,
+    loadComponent: () => import('./features/admin/trips/trip-form/trip-form').then((m) => m.TripForm),
     title: 'Editar Viaje - triptoyou',
   },
   {
     path: 'trip/:id',
-    component: TripDetail,
+    loadComponent: () =>
+      import('./features/public/trip-detail/trip-detail').then((m) => m.TripDetail),
     title: 'Detalles del Viaje',
   },
   {
     path: 'perfil',
-    component: Profile,
+    loadComponent: () => import('./features/public/profile/profile').then((m) => m.Profile),
     title: 'Mi Perfil',
   },
 
   {
     path: 'admin/bookings',
-    component: BookingList,
+    loadComponent: () =>
+      import('./features/admin/bookings/booking-list/booking-list').then((m) => m.BookingList),
     title: 'Gestión de Reservas',
   },
 
   {
     path: 'pago-completado',
-    component: PaymentSuccess,
+    loadComponent: () =>
+      import('./features/public/payment-success/payment-success').then((m) => m.PaymentSuccess),
     title: 'Pago Completado | triptoyou',
   },
 
   {
     path: 'configuracion',
-    component: Settings,
+    loadComponent: () => import('./features/public/settings/settings').then((m) => m.Settings),
     title: 'Configuración | triptoyou',
   },
 
   {
     path: 'sobre-nosotros',
-    component: About,
+    loadComponent: () => import('./features/public/pages/about/about').then((m) => m.About),
     title: 'Sobre Nosotros | triptoyou',
   },
 
   {
     path: 'contacto',
-    component: Contact,
+    loadComponent: () => import('./features/public/pages/contact/contact').then((m) => m.Contact),
     title: 'Contacto | triptoyou',
   },
 
   {
     path: 'privacidad',
-    component: Privacy,
+    loadComponent: () => import('./features/public/pages/privacy/privacy').then((m) => m.Privacy),
     title: 'Política de Privacidad | triptoyou',
   },
 
   {
     path: 'terminos',
-    component: Terms,
+    loadComponent: () => import('./features/public/pages/terms/terms').then((m) => m.Terms),
     title: 'Términos y Condiciones | triptoyou',
-  },
-
-  {
-    path: '**',
-    redirectTo: '',
   },
 
   {

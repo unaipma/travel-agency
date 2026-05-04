@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, HostListener, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, signal, HostListener, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +9,7 @@ import { TripService } from '../../../core/services/trip';
 
   imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './home.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       :host {

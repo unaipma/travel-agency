@@ -2,7 +2,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
       <div class="flex items-center">
-        <a routerLink="/" class="flex-shrink-0 flex items-center gap-3 group">
+        <a routerLink="/" aria-label="Ir a la página de inicio" class="flex-shrink-0 flex items-center gap-3 group">
           
           <span
             class="font-extrabold text-2xl text-blue-800 dark:text-blue-400 tracking-tight transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-300"
@@ -14,6 +14,7 @@
           <a
             routerLink="/trips"
             routerLinkActive="bg-gray-50 dark:bg-zinc-900 text-blue-700 dark:text-blue-400"
+            aria-label="Ver el catálogo de viajes"
             class="text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-900 hover:text-gray-900 dark:hover:text-zinc-100 px-3 py-2 rounded-md text-sm font-medium transition-colors"
           >
             Catálogo
@@ -25,6 +26,7 @@
         <!-- Theme Toggle -->
         <button
           (click)="themeService.toggleTheme()"
+          aria-label="Cambiar tema de color"
           class="p-2 rounded-xl bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-zinc-700 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 shadow-inner"
           [title]="themeService.isDarkMode() ? 'Modo Claro' : 'Modo Oscuro'"
         >
@@ -42,12 +44,14 @@
         @if (!authService.currentUser()) {
           <a
             routerLink="/login"
+            aria-label="Acceder a mi cuenta"
             class="text-gray-600 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-zinc-100 font-medium text-sm px-4 py-2 transition-colors"
           >
             Iniciar sesión
           </a>
           <a
             routerLink="/register"
+            aria-label="Registrarse en triptoyou"
             class="bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-medium text-sm px-5 py-2.5 rounded-md transition-colors shadow-sm"
           >
             Registrarse
@@ -60,18 +64,21 @@
           @if (authService.currentUser().is_admin) {
             <a
               routerLink="/admin"
+              aria-label="Ir al panel de administración"
               class="text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm px-4 py-2 transition-colors"
             >
               Panel Admin
             </a>
             <a
               routerLink="/admin/trips"
+              aria-label="Gestionar el catálogo de viajes"
               class="text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm px-4 py-2 transition-colors"
             >
               Gestión Viajes
             </a>
             <a
               routerLink="/admin/bookings"
+              aria-label="Gestionar las reservas de los clientes"
               class="text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm px-4 py-2 transition-colors"
             >
               Reservas
@@ -79,6 +86,7 @@
           } @else {
             <a
               routerLink="/perfil"
+              aria-label="Ver mis reservas y perfil"
               class="text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm px-4 py-2 transition-colors"
             >
               Mi Perfil
@@ -86,6 +94,7 @@
           }
           <a
             routerLink="/configuracion"
+            aria-label="Ajustes de cuenta"
             class="text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium text-sm px-4 py-2 transition-colors"
           >
             Configuración
@@ -93,6 +102,7 @@
 
           <button
             (click)="onLogout()"
+            aria-label="Cerrar la sesión actual"
             class="text-gray-500 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 font-medium text-sm px-4 py-2 transition-colors"
           >
             Cerrar sesión

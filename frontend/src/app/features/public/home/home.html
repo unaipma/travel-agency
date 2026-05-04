@@ -28,20 +28,20 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
       
       <div class="flex flex-col">
-        <label class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">Destino</label>
-        <input type="text" [(ngModel)]="filters.destination" placeholder="¿A dónde vas?" 
+        <label for="destination" class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">Destino</label>
+        <input id="destination" type="text" [(ngModel)]="filters.destination" placeholder="¿A dónde vas?" 
           class="w-full px-4 py-3 bg-gray-100 dark:bg-zinc-800 dark:text-zinc-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white dark:focus:bg-zinc-700 transition-all">
       </div>
 
       <div class="flex flex-col">
-        <label class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">¿Cuándo?</label>
-        <input type="date" [(ngModel)]="filters.date" 
+        <label for="date" class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">¿Cuándo?</label>
+        <input id="date" type="date" [(ngModel)]="filters.date" 
           class="w-full px-4 py-3 bg-gray-100 dark:bg-zinc-800 dark:text-zinc-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white dark:focus:bg-zinc-700 transition-all">
       </div>
 
       <div class="flex flex-col">
-        <label class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">Personas</label>
-        <select [(ngModel)]="filters.people" class="w-full px-4 py-3 bg-gray-100 dark:bg-zinc-800 dark:text-zinc-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white dark:focus:bg-zinc-700 transition-all">
+        <label for="people" class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">Personas</label>
+        <select id="people" [(ngModel)]="filters.people" class="w-full px-4 py-3 bg-gray-100 dark:bg-zinc-800 dark:text-zinc-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white dark:focus:bg-zinc-700 transition-all">
           <option [ngValue]="null">Cualquiera</option>
           <option [value]="1">1 Persona</option>
           <option [value]="2">2 Personas</option>
@@ -51,18 +51,18 @@
       </div>
 
       <div class="flex flex-col">
-        <label class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">Precio Máx.</label>
-        <input type="number" [(ngModel)]="filters.price" placeholder="Ej: 1500" min="0"
+        <label for="price" class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">Precio Máx.</label>
+        <input id="price" type="number" [(ngModel)]="filters.price" placeholder="Ej: 1500" min="0"
           class="w-full px-4 py-3 bg-gray-100 dark:bg-zinc-800 dark:text-zinc-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm border-2 border-transparent focus:bg-white dark:focus:bg-zinc-700 transition-all">
       </div>
 
     </div>
     
     <div class="flex justify-between items-center mt-6">
-      <button (click)="clearFilters()" class="text-sm text-gray-500 hover:text-red-500 font-semibold transition-colors">
+      <button (click)="clearFilters()" aria-label="Limpiar todos los filtros" class="text-sm text-gray-500 hover:text-red-500 font-semibold transition-colors">
         Limpiar filtros
       </button>
-      <button (click)="onSearch()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:-translate-y-1">
+      <button (click)="onSearch()" aria-label="Buscar viajes" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-transform transform hover:-translate-y-1">
         Buscar viajes
       </button>
     </div>
@@ -82,7 +82,7 @@
           
           <div class="h-56 bg-gray-200 relative overflow-hidden">
             @if (trip.images && trip.images.length > 0 && trip.images[0].image_path) {
-              <img [src]="trip.images[0].image_path" [alt]="trip.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+              <img [src]="trip.images[0].image_path" [alt]="trip.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
             } @else {
               <div class="w-full h-full flex items-center justify-center text-gray-400">Sin foto</div>
             }

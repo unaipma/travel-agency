@@ -51,12 +51,20 @@
                 {{
                   booking.status === 'confirmada'
                     ? 'bg-green-500 text-white'
-                    : booking.status === 'pendiente'
-                      ? 'bg-yellow-400 text-yellow-900'
-                      : 'bg-red-500 text-white'
+                    : booking.status === 'pendiente_confirmacion'
+                      ? 'bg-blue-500 text-white'
+                      : booking.status === 'pendiente_pago'
+                        ? 'bg-yellow-400 text-yellow-900'
+                        : 'bg-red-500 text-white'
                 }}"
               >
-                {{ booking.status | titlecase }}
+                @if (booking.status === 'pendiente_confirmacion') {
+                  Pendiente Confirmar
+                } @else if (booking.status === 'pendiente_pago') {
+                  Pendiente Pago
+                } @else {
+                  {{ booking.status | titlecase }}
+                }
               </div>
             </div>
 

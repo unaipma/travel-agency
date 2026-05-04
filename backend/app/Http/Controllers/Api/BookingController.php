@@ -31,7 +31,9 @@ class BookingController extends Controller
         $user = $request->user();
 
        
-        $existingBooking = $user->bookings()->where('trip_id', $request->trip_id)->first();
+        $existingBooking = $user->bookings()->where('trip_id', $request->trip_id)
+            ->whereIn('status', ['pendiente_pago', 'pendiente_confirmacion', 'confirmada'])
+            ->first();
         
         if ($existingBooking) {
             return response()->json([
@@ -42,13 +44,13 @@ class BookingController extends Controller
         
         $booking = $user->bookings()->create([
             'trip_id' => $request->trip_id,
-            'status' => 'pendiente',
+            'status' => 'pendiente_pago',
         ]);
 
-        Mail::to($user->email)->send(new BookingCreated($booking));
+        // El correo se enviará una vez que el pago se haya completado en PaymentController
 
         return response()->json([
-            'message' => 'Reserva simulada realizada con éxito',
+            'message' => 'Reserva iniciada, pendiente de pago',
           
             'booking' => new BookingResource($booking->load('trip.images'))
         ], 201);

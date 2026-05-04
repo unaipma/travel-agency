@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
 import { TripService } from '../../../core/services/trip';
@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-trip-detail',
   imports: [RouterLink, CurrencyPipe, DatePipe, UpperCasePipe, SafePipe, FormsModule],
   templateUrl: './trip-detail.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TripDetail implements OnInit {
   private route = inject(ActivatedRoute);

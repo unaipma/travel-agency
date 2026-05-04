@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingStatusUpdated;
+use App\Jobs\GenerateBookingVoucherJob;
 
 
 class BookingController extends Controller
@@ -17,6 +18,7 @@ class BookingController extends Controller
     {
         
         $bookings = Booking::with(['user', 'trip.images'])
+            ->where('status', '!=', 'pendiente_pago')
             ->orderBy('created_at', 'desc')
             ->get();
         
@@ -38,13 +40,21 @@ class BookingController extends Controller
 
       
         $request->validate([
-            'status' => ['required', 'string', Rule::in(['pendiente', 'confirmada', 'cancelada'])],
+            'status' => ['required', 'string', Rule::in(['pendiente_pago', 'pendiente_confirmacion', 'confirmada', 'rechazada', 'cancelada'])],
         ]);
 
         
         $booking->update([
             'status' => $request->status
         ]);
+
+        if (in_array($request->status, ['confirmada', 'rechazada'])) {
+            Mail::to($booking->user->email)->send(new BookingStatusUpdated($booking));
+        }
+
+        if ($request->status === 'confirmada') {
+            GenerateBookingVoucherJob::dispatch($booking);
+        }
 
         return response()->json([
             'message' => 'Estado de la reserva actualizado correctamente.',
@@ -55,14 +65,20 @@ class BookingController extends Controller
     public function updateStatus(Request $request, $id)
 {
     $request->validate([
-        'status' => 'required|in:pendiente,confirmada,rechazada'
+        'status' => 'required|in:pendiente_pago,pendiente_confirmacion,confirmada,rechazada'
     ]);
 
     $booking = Booking::findOrFail($id);
     $booking->status = $request->status;
     $booking->save();
 
-    Mail::to($booking->user->email)->send(new BookingStatusUpdated($booking));
+    if (in_array($request->status, ['confirmada', 'rechazada'])) {
+        Mail::to($booking->user->email)->send(new BookingStatusUpdated($booking));
+    }
+
+    if ($request->status === 'confirmada') {
+        GenerateBookingVoucherJob::dispatch($booking);
+    }
 
     return response()->json(['message' => 'Estado actualizado', 'data' => $booking]);
 }

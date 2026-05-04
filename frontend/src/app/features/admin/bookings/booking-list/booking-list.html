@@ -70,30 +70,42 @@
                     {{
                       booking.status === 'confirmada'
                         ? 'bg-green-100 text-green-800'
-                        : booking.status === 'pendiente'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-red-100 text-red-800'
+                        : booking.status === 'pendiente_confirmacion'
+                          ? 'bg-blue-100 text-blue-800'
+                          : booking.status === 'pendiente_pago'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : 'bg-red-100 text-red-800'
                     }}"
                   >
-                    {{ booking.status | titlecase }}
+                    @if (booking.status === 'pendiente_confirmacion') {
+                      Pendiente Confirmar
+                    } @else if (booking.status === 'pendiente_pago') {
+                      Pendiente Pago
+                    } @else {
+                      {{ booking.status | titlecase }}
+                    }
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                  @if (booking.status !== 'confirmada') {
+                  @if (booking.status === 'pendiente_confirmacion') {
                     <button
                       (click)="changeStatus(booking.id, 'confirmada')"
                       class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700 focus:outline-none transition-colors"
                     >
                       Aprobar
                     </button>
-                  }
-                  @if (booking.status !== 'rechazada') {
                     <button
                       (click)="changeStatus(booking.id, 'rechazada')"
                       class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
                     >
                       Rechazar
                     </button>
+                  } @else if (booking.status === 'confirmada') {
+                    <span class="text-green-600 text-xs">Aprobada</span>
+                  } @else if (booking.status === 'rechazada') {
+                    <span class="text-red-600 text-xs">Rechazada</span>
+                  } @else {
+                    <span class="text-gray-400 text-xs italic">Sin acciones</span>
                   }
                 </td>
               </tr>

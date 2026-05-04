@@ -74,7 +74,7 @@ FORMATO DE RESPUESTA:
             'parts' => [['text' => $userMessage]]
         ];
 
-        $response = Http::post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}", [
+        $response = Http::timeout(60)->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key={$apiKey}", [
             'system_instruction' => [
                 'parts' => [['text' => $systemPrompt]]
             ],

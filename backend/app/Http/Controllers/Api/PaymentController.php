@@ -58,14 +58,15 @@ class PaymentController extends Controller
                 // Buscamos la reserva usando el ID que le colamos a Stripe antes
                 $booking = Booking::find($session->client_reference_id);
                 
-                if ($booking && $booking->status !== 'confirmada') {
-                    $booking->status = 'confirmada';
+                if ($booking && $booking->status !== 'pendiente_confirmacion') {
+                    $booking->status = 'pendiente_confirmacion';
                     $booking->save();
                     
-                    // (Opcional) Aquí podrías poner el código para enviar el correo de confirmación
+                    // Enviar correo de "pendiente de confirmación"
+                    \Illuminate\Support\Facades\Mail::to($booking->user->email)->send(new \App\Mail\BookingCreated($booking));
                 }
                 
-                return response()->json(['message' => 'Pago verificado', 'status' => 'success']);
+                return response()->json(['message' => 'Pago verificado, reserva pendiente de confirmación', 'status' => 'success']);
             }
 
             return response()->json(['message' => 'El pago no se ha completado'], 400);
