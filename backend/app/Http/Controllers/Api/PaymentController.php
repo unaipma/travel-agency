@@ -7,6 +7,7 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
@@ -63,7 +64,14 @@ class PaymentController extends Controller
                     $booking->save();
                     
                     // Enviar correo de "pendiente de confirmación"
-                    \Illuminate\Support\Facades\Mail::to($booking->user->email)->send(new \App\Mail\BookingCreated($booking));
+                    try {
+                        Log::info('Intentando enviar correo de confirmación a: ' . $booking->user->email);
+                        \Illuminate\Support\Facades\Mail::to($booking->user->email)->send(new \App\Mail\BookingCreated($booking));
+                        Log::info('Correo enviado con éxito');
+                    } catch (\Exception $e) {
+                        Log::error('Error al enviar el correo: ' . $e->getMessage());
+                        // No lanzamos la excepción para que el proceso de pago no falle si solo falla el mail
+                    }
                 }
                 
                 return response()->json(['message' => 'Pago verificado, reserva pendiente de confirmación', 'status' => 'success']);
@@ -72,6 +80,7 @@ class PaymentController extends Controller
             return response()->json(['message' => 'El pago no se ha completado'], 400);
 
         } catch (\Exception $e) {
+            Log::error('Error crítico en verifySession: ' . $e->getMessage());
             return response()->json(['message' => 'Error al verificar el pago', 'error' => $e->getMessage()], 500);
         }
     }
