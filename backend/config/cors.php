@@ -25,7 +25,9 @@ return [
         'https://triptoyou-fzbfivgq9-unaipmas-projects.vercel.app',
     ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '/^https:\/\/.*\.vercel\.app$/',
+    ],
 
     'allowed_headers' => ['*'],
 
