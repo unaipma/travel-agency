@@ -48,7 +48,7 @@ class BookingController extends Controller
             'status' => $request->status
         ]);
 
-        if (in_array($request->status, ['confirmada', 'rechazada'])) {
+        if (in_array($request->status, ['confirmada', 'rechazada', 'cancelada'])) {
             Mail::to($booking->user->email)->send(new BookingStatusUpdated($booking));
         }
 
@@ -72,7 +72,7 @@ class BookingController extends Controller
     $booking->status = $request->status;
     $booking->save();
 
-    if (in_array($request->status, ['confirmada', 'rechazada'])) {
+    if (in_array($request->status, ['confirmada', 'rechazada', 'cancelada'])) {
         Mail::to($booking->user->email)->send(new BookingStatusUpdated($booking));
     }
 
