@@ -20,9 +20,12 @@ class TripController extends Controller
             $query->where('destination', 'LIKE', '%' . $request->destination . '%');
         }
 
-        // Filtro por Fecha
-        if ($request->filled('date') && $request->date !== 'null') {
-            $query->where('start_date', '>=', $request->date);
+        // Filtro por Rango de Fechas (El viaje debe cubrir los días elegidos por el usuario)
+        if ($request->filled('start_date') && $request->start_date !== 'null') {
+            $query->where('start_date', '<=', $request->start_date);
+        }
+        if ($request->filled('end_date') && $request->end_date !== 'null') {
+            $query->where('end_date', '>=', $request->end_date);
         }
 
         // Filtro por Precio
@@ -45,6 +48,12 @@ class TripController extends Controller
         $trip = Trip::with(['images', 'reviews.user'])->findOrFail($id);
         
         return new TripResource($trip);
+    }
+
+    public function destinations()
+    {
+        $destinations = Trip::distinct()->pluck('destination');
+        return response()->json($destinations);
     }
 
     public function addReview(Request $request, $id)

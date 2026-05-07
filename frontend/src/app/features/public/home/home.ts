@@ -23,15 +23,23 @@ export class Home implements OnInit, OnDestroy {
   private tripService = inject(TripService);
 
   trips = signal<any[]>([]);
+  destinations = signal<string[]>([]);
   loading = signal<boolean>(true);
 
   scrollOffsetRaw = signal<number>(0);
   scrollOffsetLerp = signal<number>(0);
   private lerpFactor = 0.1;
 
-  filters = {
+  filters: {
+    destination: string;
+    startDate: string;
+    endDate: string;
+    people: number | null;
+    price: number | null;
+  } = {
     destination: '',
-    date: '',
+    startDate: '',
+    endDate: '',
     people: null as number | null,
     price: null as number | null,
   };
@@ -59,6 +67,14 @@ export class Home implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadTrips(false);
+    this.loadDestinations();
+  }
+
+  private loadDestinations() {
+    this.tripService.getDestinations().subscribe({
+      next: (data) => this.destinations.set(data),
+      error: (err) => console.error('Error al cargar destinos', err),
+    });
   }
 
   private loadTrips(applyFilters: boolean = true) {
@@ -90,7 +106,8 @@ export class Home implements OnInit, OnDestroy {
   clearFilters() {
     this.filters = {
       destination: '',
-      date: '',
+      startDate: '',
+      endDate: '',
       people: null as number | null,
       price: null as number | null,
     };

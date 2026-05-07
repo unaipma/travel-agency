@@ -13,11 +13,16 @@ export class TripService {
     let params = new HttpParams();
 
     if (filters.destination) params = params.set('destination', filters.destination);
-    if (filters.date) params = params.set('date', filters.date);
+    if (filters.startDate) params = params.set('start_date', filters.startDate);
+    if (filters.endDate) params = params.set('end_date', filters.endDate);
     if (filters.price) params = params.set('price', filters.price);
     if (filters.people) params = params.set('people', filters.people);
 
     return this.http.get<any>(`${this.apiUrl}/trips`, { params });
+  }
+
+  getDestinations() {
+    return this.http.get<string[]>(`${this.apiUrl}/destinations`);
   }
 
   getTrip(id: string) {

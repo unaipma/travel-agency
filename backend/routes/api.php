@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\TwoFactorController;
 use App\Http\Controllers\Api\ChatController;
 
 
+Route::get('/destinations', [TripController::class, 'destinations']);
 Route::get('/trips', [TripController::class, 'index']);
 Route::get('/trips/{id}', [TripController::class, 'show']);
 Route::post('/chat', [ChatController::class, 'chat']);
