@@ -1,8 +1,8 @@
-<div class="relative h-[250vh] bg-gray-50 dark:bg-zinc-950 transition-colors duration-300">
+<div class="relative h-[65vh] md:h-[250vh] bg-gray-50 dark:bg-zinc-950 transition-colors duration-300">
   
-  <div class="sticky top-0 h-screen w-full bg-gradient-to-br from-blue-900 to-blue-800 overflow-hidden flex items-center justify-center">
+  <div class="relative md:sticky top-0 h-[65vh] md:h-screen w-full bg-gradient-to-br from-blue-900 to-blue-800 overflow-hidden flex items-center justify-center">
     
-    <div class="absolute z-10 transition-transform duration-75 ease-out pointer-events-none"
+    <div class="absolute z-10 transition-transform duration-75 ease-out pointer-events-none hidden md:block"
          [style.transform]="'translate(' + (scrollOffsetLerp() * 1.5) + 'px, ' + -(scrollOffsetLerp() * 0.8) + 'px) rotate(' + (45 + scrollOffsetLerp() * 0.03) + 'deg)'"
          style="bottom: 5%; left: -10%;">
       
@@ -12,10 +12,10 @@
     </div>
 
     <div class="relative z-30 text-center mx-auto max-w-4xl px-4 flex flex-col items-center justify-center">
-      <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 drop-shadow-lg">
+      <h1 class="text-4xl md:text-7xl font-extrabold text-white tracking-tight mb-4 md:mb-6 drop-shadow-lg leading-tight animate-in fade-in slide-in-from-top-4 duration-500">
         Descubre el mundo con triptoyou
       </h1>
-      <p class="text-xl md:text-2xl text-blue-100 mb-10 max-w-2xl text-center">
+      <p class="text-lg md:text-2xl text-blue-100 mb-6 md:mb-10 max-w-2xl text-center opacity-90">
         Experiencias únicas, destinos increíbles y la tranquilidad de tenerlo todo organizado.
       </p>
     </div>
@@ -23,9 +23,9 @@
   </div>
 </div>
 
-<div class="relative z-50 -mt-24 max-w-5xl mx-auto px-4">
-  <div class="bg-white dark:bg-zinc-900/60 dark:backdrop-blur-xl rounded-3xl shadow-2xl dark:shadow-blue-900/10 p-8 border border-gray-100 dark:border-zinc-800 transition-all duration-500">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+<div class="relative z-50 -mt-16 md:-mt-24 max-w-5xl mx-auto px-4">
+  <div class="bg-white dark:bg-zinc-900/60 dark:backdrop-blur-xl rounded-3xl shadow-2xl dark:shadow-blue-900/10 p-6 md:p-8 border border-gray-100 dark:border-zinc-800 transition-all duration-500">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
       
       <div class="flex flex-col">
         <label for="destination" class="text-sm font-bold text-gray-500 dark:text-zinc-500 mb-1">Destino</label>
@@ -80,7 +80,7 @@
   </div>
 </div>
 
-<div id="catalogo" class="max-w-6xl mx-auto px-4 py-20 relative z-30">
+<div id="catalogo" class="max-w-6xl mx-auto px-4 py-12 md:py-20 relative z-30">
   @if (loading()) {
     <div class="flex justify-center py-20">
       <div class="animate-spin rounded-full h-10 w-10 border-4 border-t-blue-600 border-blue-200"></div>

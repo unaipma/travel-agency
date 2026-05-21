@@ -14,8 +14,19 @@ export class Navbar {
   public themeService = inject(ThemeService);
   private router = inject(Router);
 
+  public menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
   onLogout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
 }
+
