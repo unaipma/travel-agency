@@ -25,6 +25,7 @@ class TripController extends Controller
     $validated = $request->validate([
         'title' => 'required|string|max:255',
         'destination' => 'required|string|max:255',
+        'location' => 'nullable|string|max:255',
         'description' => 'required|string',
         'price' => 'required|numeric',
         'max_people' => 'required|integer|min:1',
@@ -107,30 +108,81 @@ private function convertToWebpBase64($file)
     $validated = $request->validate([
         'title' => 'required|string|max:255',
         'destination' => 'required|string|max:255',
+        'location' => 'nullable|string|max:255',
         'description' => 'required|string',
         'price' => 'required|numeric',
         'max_people' => 'required|integer|min:1',
         'start_date' => 'required|date',
         'end_date' => 'required|date',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120'
+        'images' => 'nullable|array',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        'cover_index' => 'nullable|integer',
+        'cover_image_id' => 'nullable|integer',
+        'deleted_image_ids' => 'nullable|array',
+        'deleted_image_ids.*' => 'integer'
     ]);
 
-    $trip->update($validated);
+    $trip->update($request->except(['images', 'cover_index', 'cover_image_id', 'deleted_image_ids']));
 
-    if ($request->hasFile('image')) {
-        $file = $request->file('image');
-        $base64Image = $this->convertToWebpBase64($file);
-
-        // Opción A: Si cada viaje solo tiene 1 foto, puedes borrar las anteriores de la base de datos
-        $trip->images()->delete(); 
-
-        $trip->images()->create([
-            'image_path' => $base64Image,
-            'is_primary' => true
-        ]);
+    // 1. Delete requested images
+    if ($request->has('deleted_image_ids')) {
+        $trip->images()->whereIn('id', $request->input('deleted_image_ids'))->delete();
     }
 
-    return response()->json(['message' => 'Viaje actualizado correctamente', 'data' => $trip]);
+    // 2. Upload new images (if any)
+    $newImages = [];
+    if ($request->hasFile('images')) {
+        $coverIndex = $request->input('cover_index', -1);
+
+        foreach ($request->file('images') as $index => $file) {
+            $base64Image = $this->convertToWebpBase64($file);
+            
+            $newImg = $trip->images()->create([
+                'image_path' => $base64Image,
+                'is_primary' => false // Will set cover below
+            ]);
+            $newImages[$index] = $newImg;
+        }
+    }
+
+    // 3. Handle primary/cover status
+    $remainingImages = $trip->images()->get();
+
+    if ($remainingImages->count() > 0) {
+        // Reset all to false first
+        $trip->images()->update(['is_primary' => false]);
+
+        $coverSet = false;
+
+        // Option A: An existing image is cover
+        if ($request->has('cover_image_id')) {
+            $coverImageId = (int)$request->input('cover_image_id');
+            $exist = $trip->images()->where('id', $coverImageId)->first();
+            if ($exist) {
+                $exist->update(['is_primary' => true]);
+                $coverSet = true;
+            }
+        }
+
+        // Option B: A new image is cover
+        if (!$coverSet && $request->has('cover_index')) {
+            $coverIndex = (int)$request->input('cover_index');
+            if (isset($newImages[$coverIndex])) {
+                $newImages[$coverIndex]->update(['is_primary' => true]);
+                $coverSet = true;
+            }
+        }
+
+        // Option C: Fallback - if no cover is set, set the first remaining image as cover
+        if (!$coverSet) {
+            $firstImg = $trip->images()->first();
+            if ($firstImg) {
+                $firstImg->update(['is_primary' => true]);
+            }
+        }
+    }
+
+    return response()->json(['message' => 'Viaje actualizado correctamente', 'data' => $trip->load('images')]);
 }
 
     public function destroy($id)

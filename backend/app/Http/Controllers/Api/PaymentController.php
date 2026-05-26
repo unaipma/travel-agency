@@ -18,6 +18,9 @@ class PaymentController extends Controller
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
+        // Resolver la URL del frontend de forma dinámica a partir de la cabecera Origin (evita deslogueo en local)
+        $frontendUrl = rtrim($request->header('Origin') ?: env('FRONTEND_URL', 'http://localhost:4200'), '/');
+
         // Creamos la sesión de pago en Stripe
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -36,8 +39,8 @@ class PaymentController extends Controller
             ]],
             'mode' => 'payment',
             // URLs a las que Stripe redirigirá al usuario tras pagar (o cancelar)
-            'success_url' => env('FRONTEND_URL') . '/pago-completado?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => env('FRONTEND_URL') . '/trip/' . $booking->trip_id,
+            'success_url' => $frontendUrl . '/pago-completado?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => $frontendUrl . '/trip/' . $booking->trip_id,
         ]);
 
         // Devolvemos la URL segura generada por Stripe

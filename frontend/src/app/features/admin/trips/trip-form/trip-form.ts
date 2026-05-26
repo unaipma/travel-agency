@@ -26,10 +26,12 @@ export class TripForm implements OnInit {
   loading = signal<boolean>(false);
 
   images = signal<ImageItem[]>([]);
+  deletedImageIds = signal<number[]>([]);
 
   tripForm = this.fb.nonNullable.group({
     title: ['', Validators.required],
     destination: ['', Validators.required],
+    location: [''],
     description: ['', Validators.required],
     price: [0, [Validators.required, Validators.min(1)]],
     max_people: [10, [Validators.required, Validators.min(1)]],
@@ -53,6 +55,7 @@ export class TripForm implements OnInit {
         this.tripForm.patchValue({
           title: trip.title,
           destination: trip.destination,
+          location: trip.location || '',
           description: trip.description,
           price: trip.price,
           max_people: trip.max_people,
@@ -63,7 +66,7 @@ export class TripForm implements OnInit {
         if (trip.images && trip.images.length > 0) {
           const loadedImages = trip.images.map((img: any) => ({
             preview: img.image_path,
-            isCover: img.is_cover === 1 || img.is_cover === true,
+            isCover: img.is_primary === 1 || img.is_primary === true || img.is_cover === 1 || img.is_cover === true,
             existingId: img.id,
           }));
 
@@ -111,9 +114,14 @@ export class TripForm implements OnInit {
 
   removeImage(index: number) {
     const current = [...this.images()];
-    const wasCover = current[index].isCover;
+    const removedItem = current[index];
     current.splice(index, 1);
 
+    if (removedItem.existingId) {
+      this.deletedImageIds.set([...this.deletedImageIds(), removedItem.existingId]);
+    }
+
+    const wasCover = removedItem.isCover;
     if (wasCover && current.length > 0) {
       current[0].isCover = true;
     }
@@ -131,6 +139,17 @@ export class TripForm implements OnInit {
     Object.entries(formValues).forEach(([key, value]) => {
       formData.append(key, value.toString());
     });
+
+    // Send deleted image IDs
+    this.deletedImageIds().forEach((id) => {
+      formData.append('deleted_image_ids[]', id.toString());
+    });
+
+    // Send cover image ID if it is an existing image
+    const coverImg = this.images().find((img) => img.isCover);
+    if (coverImg && coverImg.existingId) {
+      formData.append('cover_image_id', coverImg.existingId.toString());
+    }
 
     let newFilesCount = 0;
     this.images().forEach((img) => {
