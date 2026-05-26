@@ -17,13 +17,14 @@ class DashboardController extends Controller
            
             'total_users' => User::count(),
             'total_trips' => Trip::count(),
-            'total_bookings' => Booking::count(),
+            'total_bookings' => Booking::where('status', '!=', 'pendiente_pago')->count(),
             
            
-            'pending_bookings' => Booking::where('status', 'pendiente')->count(),
+            'pending_bookings' => Booking::where('status', 'pendiente_confirmacion')->count(),
             
         
             'recent_bookings' => Booking::with(['user:id,name,email', 'trip:id,title'])
+                                        ->where('status', '!=', 'pendiente_pago')
                                         ->orderBy('created_at', 'desc')
                                         ->take(5)
                                         ->get()

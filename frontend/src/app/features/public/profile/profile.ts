@@ -32,4 +32,15 @@ export class Profile implements OnInit {
       },
     });
   }
+
+  payBooking(bookingId: number) {
+    this.bookingService.getCheckoutSession(bookingId).subscribe({
+      next: (response) => {
+        window.location.href = response.url;
+      },
+      error: (err) => {
+        console.error('Error al iniciar el pago', err);
+      },
+    });
+  }
 }
