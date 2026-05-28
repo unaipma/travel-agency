@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms'; // <-- IMPORTANTE: FormsModule añadido
+import { FormBuilder, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-settings',
-  imports: [ReactiveFormsModule, FormsModule], // <-- IMPORTANTE: FormsModule añadido aquí
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './settings.html',
 })
 export class Settings implements OnInit {
@@ -13,7 +13,6 @@ export class Settings implements OnInit {
   authService = inject(AuthService);
   private router = inject(Router);
 
-  // --- ESTADO DEL PERFIL ---
   loadingProfile = signal<boolean>(false);
   profileMessage = signal<{ text: string; type: 'success' | 'error' } | null>(null);
 
@@ -22,14 +21,12 @@ export class Settings implements OnInit {
     email: ['', [Validators.required, Validators.email]],
   });
 
-  // --- ESTADO DEL 2FA ---
   loading2FA = signal<boolean>(false);
   twoFactorMessage = signal<{ text: string; type: 'success' | 'error' } | null>(null);
   is2faEnabled = signal<boolean>(false);
   qrImage = signal<string | null>(null);
   verificationCode = signal<string>('');
 
-  // --- ESTADO DE ELIMINAR CUENTA ---
   loadingDelete = signal<boolean>(false);
   confirmDelete = signal<boolean>(false);
   deleteMessage = signal<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -49,9 +46,6 @@ export class Settings implements OnInit {
     this.is2faEnabled.set(!!user.two_factor_enabled);
   }
 
-  // ==========================================
-  // PERFIL
-  // ==========================================
   onUpdateProfile() {
     if (this.profileForm.invalid) return;
     this.loadingProfile.set(true);
@@ -69,11 +63,6 @@ export class Settings implements OnInit {
     });
   }
 
-  // ==========================================
-  // AUTENTICACIÓN DE 2 FACTORES (2FA)
-  // ==========================================
-
-  // 1. Solicita el código QR al backend
   onEnable2FA() {
     this.loading2FA.set(true);
     this.twoFactorMessage.set(null);
@@ -91,7 +80,6 @@ export class Settings implements OnInit {
     });
   }
 
-  // 2. Envía el código de 6 dígitos que el usuario ha copiado de su móvil
   onConfirm2FA() {
     if (this.verificationCode().length !== 6) return;
     
@@ -114,7 +102,6 @@ export class Settings implements OnInit {
     });
   }
 
-  // 3. Desactiva la seguridad de la cuenta
   onDisable2FA() {
     if (confirm('¿Estás absolutamente seguro de que quieres quitar la seguridad 2FA de tu cuenta?')) {
       this.loading2FA.set(true);
@@ -135,9 +122,6 @@ export class Settings implements OnInit {
     }
   }
 
-  // ==========================================
-  // BORRAR CUENTA
-  // ==========================================
   onDeleteAccount() {
     if (!this.confirmDelete()) {
       this.deleteMessage.set(null);

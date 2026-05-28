@@ -26,7 +26,6 @@ class ChatController extends Controller
         $userMessage = $request->message;
         $history = $request->history ?? [];
 
-        // Obtener viajes para dar contexto a la IA
         $trips = Trip::all(['title', 'destination', 'price', 'start_date', 'end_date', 'max_people']);
         $tripsContext = "Actualmente tenemos estos viajes disponibles:\n";
         foreach ($trips as $trip) {
@@ -56,11 +55,9 @@ FORMATO DE RESPUESTA:
 " . $tripsContext . "
 ";
 
-        // Formatear el cuerpo para Gemini API (Google AI)
         $contents = [];
         
         foreach ($history as $chat) {
-            // Asegurarse de que el historial tenga el formato correcto para Gemini
             if (isset($chat['role']) && isset($chat['text'])) {
                 $contents[] = [
                     'role' => $chat['role'] === 'user' ? 'user' : 'model',

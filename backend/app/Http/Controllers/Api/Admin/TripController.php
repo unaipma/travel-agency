@@ -21,7 +21,6 @@ class TripController extends Controller
 
     public function store(Request $request)
 {
-    // 1. Validar los datos (incluyendo la imagen opcional)
     $validated = $request->validate([
         'title' => 'required|string|max:255',
         'destination' => 'required|string|max:255',
@@ -36,10 +35,8 @@ class TripController extends Controller
         'cover_index' => 'nullable|integer'
     ]);
 
-    // 2. Crear el viaje con los datos de texto
     $trip = Trip::create($request->except(['images', 'cover_index']));
 
-    // 3. LA MAGIA DE LA IMAGEN: Comprobar si viene un archivo y guardarlo
     if ($request->hasFile('images')) {
         $coverIndex = $request->input('cover_index', 0);
 
@@ -56,37 +53,28 @@ class TripController extends Controller
     return response()->json(['message' => 'Viaje creado correctamente', 'data' => $trip], 201);
 }
 
-/**
- * Convierte una imagen subida a formato WebP comprimido en Base64
- */
 private function convertToWebpBase64($file)
 {
     $mime = $file->getMimeType();
     $path = $file->getRealPath();
 
-    // Crear recurso de imagen según el tipo
     if ($mime == 'image/jpeg' || $mime == 'image/jpg') {
         $image = imagecreatefromjpeg($path);
     } elseif ($mime == 'image/png') {
         $image = imagecreatefrompng($path);
-        // Preservar transparencia
         imagepalettetotruecolor($image);
         imagealphablending($image, true);
         imagesavealpha($image, true);
     } elseif ($mime == 'image/webp') {
         $image = imagecreatefromwebp($path);
     } else {
-        // Si no es compatible, devolvemos el base64 original sin comprimir
         return 'data:' . $mime . ';base64,' . base64_encode(file_get_contents($path));
     }
 
-    // Usar un buffer para capturar la salida de WebP
     ob_start();
-    // Calidad 75 es el estándar de oro para WebP (gran ahorro, buena calidad)
     imagewebp($image, null, 75);
     $webpData = ob_get_clean();
     
-    // Liberar memoria
     imagedestroy($image);
 
     return 'data:image/webp;base64,' . base64_encode($webpData);
@@ -124,12 +112,10 @@ private function convertToWebpBase64($file)
 
     $trip->update($request->except(['images', 'cover_index', 'cover_image_id', 'deleted_image_ids']));
 
-    // 1. Delete requested images
     if ($request->has('deleted_image_ids')) {
         $trip->images()->whereIn('id', $request->input('deleted_image_ids'))->delete();
     }
 
-    // 2. Upload new images (if any)
     $newImages = [];
     if ($request->hasFile('images')) {
         $coverIndex = $request->input('cover_index', -1);
@@ -139,22 +125,19 @@ private function convertToWebpBase64($file)
             
             $newImg = $trip->images()->create([
                 'image_path' => $base64Image,
-                'is_primary' => false // Will set cover below
+                'is_primary' => false
             ]);
             $newImages[$index] = $newImg;
         }
     }
 
-    // 3. Handle primary/cover status
     $remainingImages = $trip->images()->get();
 
     if ($remainingImages->count() > 0) {
-        // Reset all to false first
         $trip->images()->update(['is_primary' => false]);
 
         $coverSet = false;
 
-        // Option A: An existing image is cover
         if ($request->has('cover_image_id')) {
             $coverImageId = (int)$request->input('cover_image_id');
             $exist = $trip->images()->where('id', $coverImageId)->first();
@@ -164,7 +147,6 @@ private function convertToWebpBase64($file)
             }
         }
 
-        // Option B: A new image is cover
         if (!$coverSet && $request->has('cover_index')) {
             $coverIndex = (int)$request->input('cover_index');
             if (isset($newImages[$coverIndex])) {
@@ -173,7 +155,6 @@ private function convertToWebpBase64($file)
             }
         }
 
-        // Option C: Fallback - if no cover is set, set the first remaining image as cover
         if (!$coverSet) {
             $firstImg = $trip->images()->first();
             if ($firstImg) {
@@ -189,7 +170,6 @@ private function convertToWebpBase64($file)
     {
         $trip = Trip::with('images')->findOrFail($id);
         
-        // No necesitamos borrar archivos del disco porque están en la DB (Base64)
         $trip->delete();
 
         return response()->json([

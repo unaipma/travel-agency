@@ -73,12 +73,8 @@ export class AuthService {
   deleteAccount() {
     const token = this.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    // Nota: Asegúrate de que esta ruta exista en el backend. 
-    // Si no existe, podrías necesitar usar /user con método DELETE.
     return this.http.delete<any>(`${this.apiUrl}/user`, { headers });
   }
-
-  // --- MÉTODOS 2FA ---
 
   generate2fa() {
     const token = this.getToken();

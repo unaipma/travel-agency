@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingStatusUpdated;
-use App\Jobs\GenerateBookingVoucherJob;
 
 
 class BookingController extends Controller
@@ -52,9 +51,6 @@ class BookingController extends Controller
             Mail::to($booking->user->email)->send(new BookingStatusUpdated($booking));
         }
 
-        if ($request->status === 'confirmada') {
-            GenerateBookingVoucherJob::dispatch($booking);
-        }
 
         return response()->json([
             'message' => 'Estado de la reserva actualizado correctamente.',
@@ -76,9 +72,6 @@ class BookingController extends Controller
         Mail::to($booking->user->email)->send(new BookingStatusUpdated($booking));
     }
 
-    if ($request->status === 'confirmada') {
-        GenerateBookingVoucherJob::dispatch($booking);
-    }
 
     return response()->json(['message' => 'Estado actualizado', 'data' => $booking]);
 }

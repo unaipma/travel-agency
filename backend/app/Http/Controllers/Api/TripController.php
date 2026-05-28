@@ -15,12 +15,10 @@ class TripController extends Controller
     {
         $query = Trip::query()->with('images');
 
-        // Filtro por Destino
         if ($request->filled('destination') && $request->destination !== 'null') {
             $query->where('destination', 'LIKE', '%' . $request->destination . '%');
         }
 
-        // Filtro por Rango de Fechas (El viaje debe cubrir los días elegidos por el usuario)
         if ($request->filled('start_date') && $request->start_date !== 'null') {
             $query->where('start_date', '<=', $request->start_date);
         }
@@ -28,12 +26,10 @@ class TripController extends Controller
             $query->where('end_date', '>=', $request->end_date);
         }
 
-        // Filtro por Precio
         if ($request->filled('price') && $request->price !== 'null') {
             $query->where('price', '<=', $request->price);
         }
 
-        // Filtro por Personas
         if ($request->filled('people') && $request->people !== 'null') {
             $query->where('max_people', '>=', $request->people);
         }
@@ -58,7 +54,6 @@ class TripController extends Controller
 
     public function addReview(Request $request, $id)
     {
-        // 1. Validamos que nos envían los datos correctos
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|string|min:3'
@@ -66,19 +61,16 @@ class TripController extends Controller
 
         $trip = Trip::findOrFail($id);
         
-        // 2. Cogemos el usuario actual
         $userId = $request->user()->id;
 
-        // 3. Buscamos si ya tiene una reseña para este viaje y la actualizamos, o creamos una nueva
         $review = $trip->reviews()->updateOrCreate(
-            ['user_id' => $userId], // Condición de búsqueda
+            ['user_id' => $userId],
             [
                 'rating' => $request->rating,
                 'comment' => $request->comment,
             ]
         );
 
-        // 4. Cargamos los datos del usuario para devolverlos al momento
         $review->load('user');
 
         return response()->json([
@@ -92,30 +84,5 @@ class TripController extends Controller
                 'created_at' => $review->created_at->format('d/m/Y')
             ]
         ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-   
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

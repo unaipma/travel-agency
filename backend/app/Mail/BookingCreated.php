@@ -26,7 +26,7 @@ class BookingCreated extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'emails.booking_created', // Ahora crearemos esta vista
+            view: 'emails.booking_created',
         );
     }
 }

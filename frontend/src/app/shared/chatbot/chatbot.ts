@@ -33,12 +33,11 @@ export class Chatbot implements AfterViewChecked {
     const text = this.currentInput.trim();
     if (!text || this.isLoading()) return;
 
-    // Guardar mensaje del usuario
     this.messages.update(m => [...m, { role: 'user', text }]);
     this.currentInput = '';
     this.isLoading.set(true);
 
-    const history = this.messages().slice(1, -1); // Omitimos el saludo inicial y el último mensaje para el historial si fuera necesario, o enviamos todo
+    
 
     this.chatService.sendMessage(text, this.messages().slice(0, -1)).subscribe({
       next: (res) => {
